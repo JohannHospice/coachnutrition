@@ -1,9 +1,6 @@
-package hl.univ_paris_diderot.coachnutrition.app.nutrition;
+package hl.univ_paris_diderot.coachnutrition.app.modele;
 
 import java.util.List;
-
-import hl.univ_paris_diderot.coachnutrition.app.nutrition.Food;
-import hl.univ_paris_diderot.coachnutrition.app.nutrition.Statistic;
 
 public class Meal {
     private long id;

@@ -1,8 +1,9 @@
-package hl.univ_paris_diderot.coachnutrition.app.nutrition;
+package hl.univ_paris_diderot.coachnutrition.app.modele;
 
 public class Food {
     private long id;
     private String name;
+    private int gramme;
     private Statistic statistic;
 
     public Food(String name, int calorie, int lipid, int glucide, int protein) {
@@ -37,5 +38,13 @@ public class Food {
 
     public void setStatistic(Statistic statistic) {
         this.statistic = statistic;
+    }
+
+    public int getGramme() {
+        return gramme;
+    }
+
+    public void setGramme(int gramme) {
+        this.gramme = gramme;
     }
 }

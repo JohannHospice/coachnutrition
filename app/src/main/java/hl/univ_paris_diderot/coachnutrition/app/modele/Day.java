@@ -1,9 +1,7 @@
-package hl.univ_paris_diderot.coachnutrition.app.nutrition;
+package hl.univ_paris_diderot.coachnutrition.app.modele;
 
 import java.util.Date;
 import java.util.List;
-
-import hl.univ_paris_diderot.coachnutrition.app.Objective;
 
 public class Day {
     private long id;

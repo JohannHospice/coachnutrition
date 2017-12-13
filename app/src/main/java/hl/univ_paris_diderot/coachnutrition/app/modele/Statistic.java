@@ -1,4 +1,4 @@
-package hl.univ_paris_diderot.coachnutrition.app.nutrition;
+package hl.univ_paris_diderot.coachnutrition.app.modele;
 
 public class Statistic {
     private long id;

@@ -12,12 +12,12 @@ import android.view.ViewGroup;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link MealFragment.OnFragmentInteractionListener} interface
+ * {@link StatisticFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link MealFragment#newInstance} factory method to
+ * Use the {@link StatisticFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MealFragment extends Fragment {
+public class StatisticFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -29,7 +29,7 @@ public class MealFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public MealFragment() {
+    public StatisticFragment() {
         // Required empty public constructor
     }
 
@@ -39,11 +39,11 @@ public class MealFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment MealFragment.
+     * @return A new instance of fragment StatisticFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static MealFragment newInstance(String param1, String param2) {
-        MealFragment fragment = new MealFragment();
+    public static StatisticFragment newInstance(String param1, String param2) {
+        StatisticFragment fragment = new StatisticFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -64,7 +64,7 @@ public class MealFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_meal, container, false);
+        return inflater.inflate(R.layout.fragment_statistic, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

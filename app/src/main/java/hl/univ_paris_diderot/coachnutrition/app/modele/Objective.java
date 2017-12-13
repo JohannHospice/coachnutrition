@@ -1,4 +1,4 @@
-package hl.univ_paris_diderot.coachnutrition.app;
+package hl.univ_paris_diderot.coachnutrition.app.modele;
 
 public class Objective {
     private int id;
