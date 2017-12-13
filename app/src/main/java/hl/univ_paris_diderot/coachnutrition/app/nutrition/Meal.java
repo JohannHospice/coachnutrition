@@ -1,18 +1,18 @@
 package hl.univ_paris_diderot.coachnutrition.app.nutrition;
 
-public class Food {
+import java.util.List;
+
+import hl.univ_paris_diderot.coachnutrition.app.nutrition.Food;
+import hl.univ_paris_diderot.coachnutrition.app.nutrition.Statistic;
+
+public class Meal {
     private long id;
     private String name;
     private Statistic statistic;
+    private List<Food> foods;
 
-    public Food(String name, int calorie, int lipid, int glucide, int protein) {
+    public Meal(String name) {
         this.name = name;
-        statistic = new Statistic(calorie, lipid, glucide, protein);
-    }
-
-    public Food(String name, int calorie) {
-        this.name = name;
-        statistic = new Statistic(calorie);
     }
 
     public String getName() {
@@ -23,12 +23,12 @@ public class Food {
         this.name = name;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public List<Food> getFoods() {
+        return foods;
     }
 
-    public long getId() {
-        return id;
+    public void setFoods(List<Food> foods) {
+        this.foods = foods;
     }
 
     public Statistic getStatistic() {
@@ -37,5 +37,13 @@ public class Food {
 
     public void setStatistic(Statistic statistic) {
         this.statistic = statistic;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }

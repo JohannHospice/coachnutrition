@@ -1,6 +1,7 @@
-package hl.univ_paris_diderot.coachnutrition.app.nutrition;
+package hl.univ_paris_diderot.coachnutrition.app;
 
 public class Objective {
+    private int id;
     private int calorieMax;
     private int calorieMin;
 
@@ -23,5 +24,13 @@ public class Objective {
 
     public void setCalorieMin(int calorieMin) {
         this.calorieMin = calorieMin;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
