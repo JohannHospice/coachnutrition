@@ -1,12 +1,18 @@
 package hl.univ_paris_diderot.coachnutrition;
 
+import android.app.LoaderManager;
 import android.content.Context;
+import android.content.CursorLoader;
+import android.content.Loader;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SimpleCursorAdapter;
+import android.widget.Spinner;
 
 
 /**
@@ -17,7 +23,7 @@ import android.view.ViewGroup;
  * Use the {@link MealFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MealFragment extends Fragment {
+public class MealFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>  {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -89,6 +95,29 @@ public class MealFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+    Spinner spinner;
+    SimpleCursorAdapter adapter;
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle bundle) {
+        return null;
+        /*Uri.Builder builder = new Uri.Builder();
+        Uri uri = builder.scheme("content").authority(authority)
+                .appendPath("author_table").build();
+        return new CursorLoader(this, uri, new String[]{"_id", "nom"},
+                null, null, null);
+        */
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+        adapter.swapCursor(cursor);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        adapter.swapCursor(null);
     }
 
     /**

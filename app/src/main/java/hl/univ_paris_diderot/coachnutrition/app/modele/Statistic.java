@@ -1,14 +1,14 @@
 package hl.univ_paris_diderot.coachnutrition.app.modele;
 
-public class Statistic {
-    private long id;
+import android.content.ContentValues;
+
+import hl.univ_paris_diderot.coachnutrition.app.database.DataBase;
+
+public class Statistic extends Modele{
     private int calorie = 0;
     private int lipid = 0;
     private int glucide = 0;
     private int protein = 0;
-
-    public Statistic() {
-    }
 
     public Statistic(int calorie) {
         this.calorie = calorie;
@@ -53,11 +53,14 @@ public class Statistic {
         this.protein = protein;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public long getId() {
-        return id;
+    @Override
+    public ContentValues toContentValues() {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(DataBase.Statistic._ID, id);
+        contentValues.put(DataBase.Statistic.COLUMN_NAME_CALORIE, calorie);
+        contentValues.put(DataBase.Statistic.COLUMN_NAME_GLUCIDE, glucide);
+        contentValues.put(DataBase.Statistic.COLUMN_NAME_LIPIDE, lipid);
+        contentValues.put(DataBase.Statistic.COLUMN_NAME_PROTEIN, protein);
+        return contentValues;
     }
 }

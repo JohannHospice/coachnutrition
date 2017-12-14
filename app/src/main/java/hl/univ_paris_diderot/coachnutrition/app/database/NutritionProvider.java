@@ -13,7 +13,7 @@ import android.util.Log;
 public class NutritionProvider extends ContentProvider {
     private DataBaseHelper helper;
 
-    private static final String AUTHORITY = "fr.univ-paris-diderot.coachnutrition";
+    public static final String AUTHORITY = "fr.univ-paris-diderot.coachnutrition";
     private static final int CODE_OBJECTIVE = 1;
     private static final int CODE_STATISTIC = 2;
     private static final int CODE_FOOD = 3;

@@ -1,10 +1,13 @@
 package hl.univ_paris_diderot.coachnutrition.app.modele;
 
+import android.content.ContentValues;
+
 import java.util.Date;
 import java.util.List;
 
-public class Day {
-    private long id;
+import hl.univ_paris_diderot.coachnutrition.app.database.DataBase;
+
+public class Day extends Modele {
     private Date date;
     private Statistic statistic;
     private Objective objective;
@@ -46,11 +49,11 @@ public class Day {
         this.statistic = statistic;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
+    @Override
+    public ContentValues toContentValues() {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(DataBase.Day._ID, id);
+        contentValues.put(DataBase.Day.COLUMN_NAME_DATE, date.getTime());
+        return contentValues;
     }
 }

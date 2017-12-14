@@ -1,7 +1,10 @@
 package hl.univ_paris_diderot.coachnutrition.app.modele;
 
-public class Food {
-    private long id;
+import android.content.ContentValues;
+
+import hl.univ_paris_diderot.coachnutrition.app.database.DataBase;
+
+public class Food extends Modele {
     private String name;
     private int gramme;
     private Statistic statistic;
@@ -46,5 +49,14 @@ public class Food {
 
     public void setGramme(int gramme) {
         this.gramme = gramme;
+    }
+
+    @Override
+    public ContentValues toContentValues() {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(DataBase.Food._ID, id);
+        contentValues.put(DataBase.Food.COLUMN_NAME_GRAMME, gramme);
+        contentValues.put(DataBase.Food.COLUMN_NAME_NAME, name);
+        return contentValues;
     }
 }

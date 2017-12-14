@@ -1,7 +1,10 @@
 package hl.univ_paris_diderot.coachnutrition.app.modele;
 
-public class Objective {
-    private int id;
+import android.content.ContentValues;
+
+import hl.univ_paris_diderot.coachnutrition.app.database.DataBase;
+
+public class Objective extends Modele {
     private int calorieMax;
     private int calorieMin;
 
@@ -26,11 +29,12 @@ public class Objective {
         this.calorieMin = calorieMin;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    @Override
+    public ContentValues toContentValues() {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(DataBase.Objective._ID, id);
+        contentValues.put(DataBase.Objective.COLUMN_NAME_MAX_CALORIE, calorieMax);
+        contentValues.put(DataBase.Objective.COLUMN_NAME_MIN_CALORIE, calorieMin);
+        return contentValues;
     }
 }
