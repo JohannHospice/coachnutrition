@@ -54,6 +54,8 @@ public class Day extends Modele {
         ContentValues contentValues = new ContentValues();
         contentValues.put(DataBase.Day._ID, id);
         contentValues.put(DataBase.Day.COLUMN_NAME_DATE, date.getTime());
+        contentValues.put(DataBase.Day.COLUMN_NAME_OBJECTIVE_ID, objective.getId());
+        contentValues.put(DataBase.Day.COLUMN_NAME_STATISTIC_ID, statistic.getId());
         return contentValues;
     }
 }

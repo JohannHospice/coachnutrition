@@ -7,7 +7,7 @@ import android.content.ContentValues;
  */
 
 abstract class Modele {
-    protected long id;
+    protected long id = -1;
 
     public long getId() {
         return id;

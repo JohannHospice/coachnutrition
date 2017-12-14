@@ -55,8 +55,9 @@ public class Food extends Modele {
     public ContentValues toContentValues() {
         ContentValues contentValues = new ContentValues();
         contentValues.put(DataBase.Food._ID, id);
-        contentValues.put(DataBase.Food.COLUMN_NAME_GRAMME, gramme);
         contentValues.put(DataBase.Food.COLUMN_NAME_NAME, name);
+        contentValues.put(DataBase.Food.COLUMN_NAME_GRAMME, gramme);
+        contentValues.put(DataBase.Food.COLUMN_NAME_STATISTIC_ID, statistic.getId());
         return contentValues;
     }
 }
