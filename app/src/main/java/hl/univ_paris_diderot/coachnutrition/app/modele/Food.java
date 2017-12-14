@@ -2,7 +2,7 @@ package hl.univ_paris_diderot.coachnutrition.app.modele;
 
 import android.content.ContentValues;
 
-import hl.univ_paris_diderot.coachnutrition.app.database.DataBase;
+import hl.univ_paris_diderot.coachnutrition.app.database.Contract;
 
 public class Food extends Modele {
     private String name;
@@ -54,9 +54,9 @@ public class Food extends Modele {
     @Override
     public ContentValues toContentValues() {
         ContentValues contentValues = new ContentValues();
-        contentValues.put(DataBase.Food._ID, id);
-        contentValues.put(DataBase.Food.COLUMN_NAME_GRAMME, gramme);
-        contentValues.put(DataBase.Food.COLUMN_NAME_NAME, name);
+        contentValues.put(Contract.Food._ID, id);
+        contentValues.put(Contract.Food.COLUMN_NAME_GRAMME, gramme);
+        contentValues.put(Contract.Food.COLUMN_NAME_NAME, name);
         return contentValues;
     }
 }

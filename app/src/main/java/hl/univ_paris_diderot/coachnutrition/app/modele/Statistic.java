@@ -2,7 +2,7 @@ package hl.univ_paris_diderot.coachnutrition.app.modele;
 
 import android.content.ContentValues;
 
-import hl.univ_paris_diderot.coachnutrition.app.database.DataBase;
+import hl.univ_paris_diderot.coachnutrition.app.database.Contract;
 
 public class Statistic extends Modele{
     private int calorie = 0;
@@ -56,11 +56,11 @@ public class Statistic extends Modele{
     @Override
     public ContentValues toContentValues() {
         ContentValues contentValues = new ContentValues();
-        contentValues.put(DataBase.Statistic._ID, id);
-        contentValues.put(DataBase.Statistic.COLUMN_NAME_CALORIE, calorie);
-        contentValues.put(DataBase.Statistic.COLUMN_NAME_GLUCIDE, glucide);
-        contentValues.put(DataBase.Statistic.COLUMN_NAME_LIPIDE, lipid);
-        contentValues.put(DataBase.Statistic.COLUMN_NAME_PROTEIN, protein);
+        contentValues.put(Contract.Statistic._ID, id);
+        contentValues.put(Contract.Statistic.COLUMN_NAME_CALORIE, calorie);
+        contentValues.put(Contract.Statistic.COLUMN_NAME_GLUCIDE, glucide);
+        contentValues.put(Contract.Statistic.COLUMN_NAME_LIPIDE, lipid);
+        contentValues.put(Contract.Statistic.COLUMN_NAME_PROTEIN, protein);
         return contentValues;
     }
 }

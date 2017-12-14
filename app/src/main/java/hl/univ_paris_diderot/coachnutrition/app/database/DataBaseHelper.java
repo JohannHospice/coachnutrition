@@ -22,21 +22,21 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(DataBase.Objective.SQL_CREATE_ENTRIES);
-        db.execSQL(DataBase.Statistic.SQL_CREATE_ENTRIES);
-        db.execSQL(DataBase.Food.SQL_CREATE_ENTRIES);
-        db.execSQL(DataBase.Meal.SQL_CREATE_ENTRIES);
-        db.execSQL(DataBase.Day.SQL_CREATE_ENTRIES);
+        db.execSQL(Contract.Objective.SQL_CREATE_ENTRIES);
+        db.execSQL(Contract.Statistic.SQL_CREATE_ENTRIES);
+        db.execSQL(Contract.Food.SQL_CREATE_ENTRIES);
+        db.execSQL(Contract.Meal.SQL_CREATE_ENTRIES);
+        db.execSQL(Contract.Day.SQL_CREATE_ENTRIES);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         if (newVersion > oldVersion) {
-            db.execSQL(DataBase.Objective.SQL_DELETE_ENTRIES);
-            db.execSQL(DataBase.Statistic.SQL_DELETE_ENTRIES);
-            db.execSQL(DataBase.Food.SQL_DELETE_ENTRIES);
-            db.execSQL(DataBase.Meal.SQL_DELETE_ENTRIES);
-            db.execSQL(DataBase.Day.SQL_DELETE_ENTRIES);
+            db.execSQL(Contract.Objective.SQL_DELETE_ENTRIES);
+            db.execSQL(Contract.Statistic.SQL_DELETE_ENTRIES);
+            db.execSQL(Contract.Food.SQL_DELETE_ENTRIES);
+            db.execSQL(Contract.Meal.SQL_DELETE_ENTRIES);
+            db.execSQL(Contract.Day.SQL_DELETE_ENTRIES);
             onCreate(db);
         }
     }

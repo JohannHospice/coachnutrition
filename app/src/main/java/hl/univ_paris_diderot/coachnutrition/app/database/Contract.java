@@ -2,8 +2,8 @@ package hl.univ_paris_diderot.coachnutrition.app.database;
 
 import android.provider.BaseColumns;
 
-public final class DataBase {
-    private DataBase() {
+public final class Contract {
+    private Contract() {
     }
 
     public static class Statistic implements BaseColumns {

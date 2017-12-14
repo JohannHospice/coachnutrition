@@ -5,7 +5,7 @@ import android.content.ContentValues;
 import java.util.Date;
 import java.util.List;
 
-import hl.univ_paris_diderot.coachnutrition.app.database.DataBase;
+import hl.univ_paris_diderot.coachnutrition.app.database.Contract;
 
 public class Day extends Modele {
     private Date date;
@@ -52,8 +52,8 @@ public class Day extends Modele {
     @Override
     public ContentValues toContentValues() {
         ContentValues contentValues = new ContentValues();
-        contentValues.put(DataBase.Day._ID, id);
-        contentValues.put(DataBase.Day.COLUMN_NAME_DATE, date.getTime());
+        contentValues.put(Contract.Day._ID, id);
+        contentValues.put(Contract.Day.COLUMN_NAME_DATE, date.getTime());
         return contentValues;
     }
 }

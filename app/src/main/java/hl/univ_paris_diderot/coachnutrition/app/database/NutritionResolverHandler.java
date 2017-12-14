@@ -1,7 +1,6 @@
 package hl.univ_paris_diderot.coachnutrition.app.database;
 
 import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
@@ -18,7 +17,7 @@ public class NutritionResolverHandler {
 
     public void insert(Statistic statistic) {
         try {
-            resolver.insert(buildUri(DataBase.Statistic.TABLE_NAME), statistic.toContentValues());
+            resolver.insert(buildUri(Contract.Statistic.TABLE_NAME), statistic.toContentValues());
             Log.d("ok", "insertion complete");
         } catch (Exception e) {
             Log.d("error", e.getMessage());
@@ -27,7 +26,7 @@ public class NutritionResolverHandler {
 
     public void insert(Objective objective) {
         try {
-            resolver.insert(buildUri(DataBase.Objective.TABLE_NAME), objective.toContentValues());
+            resolver.insert(buildUri(Contract.Objective.TABLE_NAME), objective.toContentValues());
             Log.d("ok", "insertion complete");
         } catch (Exception e) {
             Log.d("error", e.getMessage());

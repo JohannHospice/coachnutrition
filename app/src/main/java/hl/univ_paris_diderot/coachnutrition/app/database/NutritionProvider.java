@@ -5,10 +5,14 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
+
+import java.time.OffsetDateTime;
 
 public class NutritionProvider extends ContentProvider {
     private DataBaseHelper helper;
@@ -40,14 +44,17 @@ public class NutritionProvider extends ContentProvider {
     @Nullable
     @Override
     public String getType(@NonNull Uri uri) {
-        return "vnd.android.cursor.dir/vnd." + AUTHORITY + "." + switchCode(uriMatcher.match(uri));
+        return null;// "vnd.android.cursor.dir/vnd." + AUTHORITY + "." + switchCode(uriMatcher.match(uri));
     }
 
     @Nullable
     @Override
     public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection, @Nullable String[] selectionArgs, @Nullable String sortOrdered) {
+        String table = switchCode(uriMatcher.match(uri));
+        if (table == null)
+            return null;
         return helper.getReadableDatabase().query(
-                DataBase.Statistic.TABLE_NAME,
+                table,
                 projection,
                 selection,
                 selectionArgs,
@@ -59,41 +66,45 @@ public class NutritionProvider extends ContentProvider {
     @Nullable
     @Override
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues contentValues) {
-        String path = switchCode(uriMatcher.match(uri));
-
-        long id = helper.getWritableDatabase().insertOrThrow(path, null, contentValues);
+        String table = switchCode(uriMatcher.match(uri));
+        if (table == null)
+            return null;
+        SQLiteDatabase db = helper.getWritableDatabase();
+        long id = db.insertOrThrow(table, null, contentValues);
         Uri.Builder builder = (new Uri.Builder())
                 .authority(AUTHORITY)
-                .appendPath(path);
+                .appendPath(table);
         return ContentUris.appendId(builder, id).build();
     }
 
     @Override
-    public int delete(@NonNull Uri uri, @Nullable String whereClause, @Nullable String[] whereArgs) {
-        String path = switchCode(uriMatcher.match(uri));
-
-        return helper.getWritableDatabase().delete(path, whereClause, whereArgs);
+    public int update(@NonNull Uri uri, @Nullable ContentValues contentValues, @Nullable String whereClause, @Nullable String[] whereArgs) {
+        String table = switchCode(uriMatcher.match(uri));
+        if (table == null)
+            return 0;
+        return helper.getWritableDatabase().update(table, contentValues, whereClause, whereArgs);
     }
 
     @Override
-    public int update(@NonNull Uri uri, @Nullable ContentValues contentValues, @Nullable String whereClause, @Nullable String[] whereArgs) {
-        String path = switchCode(uriMatcher.match(uri));
-
-        return helper.getWritableDatabase().update(path, contentValues, whereClause, whereArgs);
+    public int delete(@NonNull Uri uri, @Nullable String whereClause, @Nullable String[] whereArgs) {
+        String table = switchCode(uriMatcher.match(uri));
+        if (table == null)
+            return 0;
+        return helper.getWritableDatabase().delete(table, whereClause, whereArgs);
     }
 
     private static String switchCode(int code) {
         switch (code) {
             case CODE_STATISTIC:
-                return DataBase.Statistic.TABLE_NAME;
+                return Contract.Statistic.TABLE_NAME;
             case CODE_OBJECTIVE:
-                return DataBase.Objective.TABLE_NAME;
+                return Contract.Objective.TABLE_NAME;
             case CODE_FOOD:
-                return DataBase.Food.TABLE_NAME;
+                return Contract.Food.TABLE_NAME;
             case CODE_MEAL:
-                return DataBase.Meal.TABLE_NAME;
+                return Contract.Meal.TABLE_NAME;
             case CODE_DAY:
-                return DataBase.Day.TABLE_NAME;
+                return Contract.Day.TABLE_NAME;
             default:
                 Log.d("Uri provider =", String.valueOf(code));
                 throw new UnsupportedOperationException("Not yet implemented");
@@ -107,24 +118,24 @@ public class NutritionProvider extends ContentProvider {
 
     public long insert(Statistic statistic) {
         ContentValues values = new ContentValues();
-        values.put(DataBase.Statistic.COLUMN_NAME_CALORIE, statistic.getCalorie());
-        values.put(DataBase.Statistic.COLUMN_NAME_GLUCIDE, statistic.getGlucide());
-        values.put(DataBase.Statistic.COLUMN_NAME_LIPIDE, statistic.getLipid());
-        values.put(DataBase.Statistic.COLUMN_NAME_PROTEIN, statistic.getProtein());
-        return helper.getWritableDatabase().insert(DataBase.Statistic.TABLE_NAME, null, values);
+        values.put(Contract.Statistic.COLUMN_NAME_CALORIE, statistic.getCalorie());
+        values.put(Contract.Statistic.COLUMN_NAME_GLUCIDE, statistic.getGlucide());
+        values.put(Contract.Statistic.COLUMN_NAME_LIPIDE, statistic.getLipid());
+        values.put(Contract.Statistic.COLUMN_NAME_PROTEIN, statistic.getProtein());
+        return helper.getWritableDatabase().insert(Contract.Statistic.TABLE_NAME, null, values);
     }
 
     public int update(int id, Statistic statistic) {
         ContentValues values = new ContentValues();
-        values.put(DataBase.Statistic.COLUMN_NAME_CALORIE, statistic.getCalorie());
-        values.put(DataBase.Statistic.COLUMN_NAME_GLUCIDE, statistic.getGlucide());
-        values.put(DataBase.Statistic.COLUMN_NAME_LIPIDE, statistic.getLipid());
-        values.put(DataBase.Statistic.COLUMN_NAME_PROTEIN, statistic.getProtein());
-        return helper.getWritableDatabase().update(DataBase.Statistic.TABLE_NAME, values, DataBase.Statistic._ID + " = " + id, null);
+        values.put(Contract.Statistic.COLUMN_NAME_CALORIE, statistic.getCalorie());
+        values.put(Contract.Statistic.COLUMN_NAME_GLUCIDE, statistic.getGlucide());
+        values.put(Contract.Statistic.COLUMN_NAME_LIPIDE, statistic.getLipid());
+        values.put(Contract.Statistic.COLUMN_NAME_PROTEIN, statistic.getProtein());
+        return helper.getWritableDatabase().update(Contract.Statistic.TABLE_NAME, values, Contract.Statistic._ID + " = " + id, null);
     }
 
     public long delete(long id) {
-        return helper.getWritableDatabase().delete(DataBase.Statistic.TABLE_NAME, DataBase.Statistic._ID + " = " + id, null);
+        return helper.getWritableDatabase().delete(Contract.Statistic.TABLE_NAME, Contract.Statistic._ID + " = " + id, null);
     }
 
     public long delete(Statistic statistic) {
@@ -133,7 +144,7 @@ public class NutritionProvider extends ContentProvider {
 
     public Cursor read(String[] projection, String selection, String[] selectionArgs) {
         return helper.getReadableDatabase().query(
-                DataBase.Statistic.TABLE_NAME,
+                Contract.Statistic.TABLE_NAME,
                 projection,
                 selection,
                 selectionArgs,
@@ -145,7 +156,7 @@ public class NutritionProvider extends ContentProvider {
     public Statistic get(long id) {
         Cursor cursor = read(
                 ALL_COLUMNS,
-                DataBase.Statistic._ID + " = ?",
+                Contract.Statistic._ID + " = ?",
                 new String[]{String.valueOf(id)});
         cursor.moveToFirst();
         Statistic statistic = convert(cursor);
@@ -169,11 +180,11 @@ public class NutritionProvider extends ContentProvider {
 
     private Statistic convert(Cursor cursor) {
         Statistic statistic = new Statistic();
-        statistic.setId(cursor.getLong(cursor.getColumnIndexOrThrow(DataBase.Statistic._ID)));
-        statistic.setCalorie(cursor.getInt(cursor.getColumnIndexOrThrow(DataBase.Statistic.COLUMN_NAME_CALORIE)));
-        statistic.setGlucide(cursor.getInt(cursor.getColumnIndexOrThrow(DataBase.Statistic.COLUMN_NAME_GLUCIDE)));
-        statistic.setLipid(cursor.getInt(cursor.getColumnIndexOrThrow(DataBase.Statistic.COLUMN_NAME_LIPIDE)));
-        statistic.setProtein(cursor.getInt(cursor.getColumnIndexOrThrow(DataBase.Statistic.COLUMN_NAME_PROTEIN)));
+        statistic.setId(cursor.getLong(cursor.getColumnIndexOrThrow(Contract.Statistic._ID)));
+        statistic.setCalorie(cursor.getInt(cursor.getColumnIndexOrThrow(Contract.Statistic.COLUMN_NAME_CALORIE)));
+        statistic.setGlucide(cursor.getInt(cursor.getColumnIndexOrThrow(Contract.Statistic.COLUMN_NAME_GLUCIDE)));
+        statistic.setLipid(cursor.getInt(cursor.getColumnIndexOrThrow(Contract.Statistic.COLUMN_NAME_LIPIDE)));
+        statistic.setProtein(cursor.getInt(cursor.getColumnIndexOrThrow(Contract.Statistic.COLUMN_NAME_PROTEIN)));
         return statistic;
     }
     */
