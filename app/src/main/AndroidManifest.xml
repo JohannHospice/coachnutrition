@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="frl.univ_paris_diderot.coachnutrition.MainActivity"
+            android:name="fr.univ_paris_diderot.coachnutrition.MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -19,14 +19,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+        <activity android:name=".FoodActivity" />
+        <activity android:name=".AddFoodActivity"></activity>
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".FoodActivity"></activity>
+        <provider
+            android:name=".app.database.NutritionProvider"
+            android:authorities="fr.univ-paris-diderot.coachnutrition" />
     </application>
 
 </manifest>

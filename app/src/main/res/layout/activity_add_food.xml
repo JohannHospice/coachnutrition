@@ -4,18 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="fr.univ_paris_diderot.coachnutrition.FoodActivity">
+    tools:context="fr.univ_paris_diderot.coachnutrition.AddFoodActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
+        <EditText
             android:id="@+id/name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="food" />
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="Name" />
 
         <android.support.v7.widget.CardView
             android:id="@+id/card_view"
@@ -34,13 +36,12 @@
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
 
-                    <EditText
+                    <TextView
                         android:id="@+id/gramme"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:ems="10"
-                        android:inputType="number"
                         android:text="1" />
 
                     <TextView
@@ -50,22 +51,18 @@
                         android:text="g" />
                 </LinearLayout>
 
-                <Spinner
-                    android:id="@+id/meal_spinner"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <EditText
                         android:id="@+id/calorie"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="TextView" />
+                        android:ems="10"
+                        android:inputType="numberDecimal" />
 
                     <TextView
                         android:id="@+id/textView2"
@@ -115,12 +112,13 @@
                             android:layout_weight="1"
                             android:text="@string/protein" />
 
-                        <TextView
+                        <EditText
                             android:id="@+id/protein"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="TextView" />
+                            android:ems="10"
+                            android:inputType="numberDecimal" />
 
                         <TextView
                             android:id="@+id/textView12"
@@ -143,12 +141,13 @@
                             android:layout_weight="1"
                             android:text="@string/Lipide" />
 
-                        <TextView
+                        <EditText
                             android:id="@+id/lipide"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="TextView" />
+                            android:ems="10"
+                            android:inputType="numberDecimal" />
 
                         <TextView
                             android:id="@+id/textView11"
@@ -170,12 +169,13 @@
                             android:layout_weight="1"
                             android:text="@string/glucide" />
 
-                        <TextView
+                        <EditText
                             android:id="@+id/glucide"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="TextView" />
+                            android:ems="10"
+                            android:inputType="numberDecimal" />
 
                         <TextView
                             android:id="@+id/textView10"
@@ -188,6 +188,13 @@
 
             </LinearLayout>
         </android.support.v7.widget.CardView>
+
+        <Button
+            android:id="@+id/add"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="onClickAdd"
+            android:text="Ajouter" />
 
     </LinearLayout>
 

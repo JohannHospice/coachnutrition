@@ -64,10 +64,15 @@ public class NutritionProvider extends ContentProvider {
     @Override
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues contentValues) {
         String table = switchCode(uriMatcher.match(uri));
+        Log.d("insert", "try");
+
         if (table == null)
             return null;
+        Log.d("insert", "found table");
+
         SQLiteDatabase db = helper.getWritableDatabase();
         long id = db.insertOrThrow(table, null, contentValues);
+        Log.d("insert", "success");
         Uri.Builder builder = (new Uri.Builder())
                 .authority(AUTHORITY)
                 .appendPath(table);
