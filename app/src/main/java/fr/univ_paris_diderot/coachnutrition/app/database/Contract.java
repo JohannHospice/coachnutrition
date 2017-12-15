@@ -1,4 +1,4 @@
-package hl.univ_paris_diderot.coachnutrition.app.database;
+package fr.univ_paris_diderot.coachnutrition.app.database;
 
 import android.provider.BaseColumns;
 

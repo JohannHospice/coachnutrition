@@ -1,4 +1,4 @@
-package hl.univ_paris_diderot.coachnutrition;
+package fr.univ_paris_diderot.coachnutrition;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

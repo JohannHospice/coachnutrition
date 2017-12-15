@@ -1,4 +1,4 @@
-package hl.univ_paris_diderot.coachnutrition.app.database;
+package fr.univ_paris_diderot.coachnutrition.app.database;
 
 import android.content.ContentProvider;
 import android.content.ContentUris;
@@ -6,16 +6,13 @@ import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import java.time.OffsetDateTime;
-
 public class NutritionProvider extends ContentProvider {
-    private DataBaseHelper helper;
+    private DatabaseHelper helper;
 
     public static final String AUTHORITY = "fr.univ-paris-diderot.coachnutrition";
     private static final int CODE_OBJECTIVE = 1;
@@ -37,7 +34,7 @@ public class NutritionProvider extends ContentProvider {
 
     @Override
     public boolean onCreate() {
-        helper = DataBaseHelper.getInstance(getContext());
+        helper = DatabaseHelper.getInstance(getContext());
         return true;
     }
 
@@ -110,82 +107,4 @@ public class NutritionProvider extends ContentProvider {
                 throw new UnsupportedOperationException("Not yet implemented");
         }
     }
-
-/*
-    public void close() {
-        helper.close();
-    }
-
-    public long insert(Statistic statistic) {
-        ContentValues values = new ContentValues();
-        values.put(Contract.Statistic.COLUMN_NAME_CALORIE, statistic.getCalorie());
-        values.put(Contract.Statistic.COLUMN_NAME_GLUCIDE, statistic.getGlucide());
-        values.put(Contract.Statistic.COLUMN_NAME_LIPIDE, statistic.getLipid());
-        values.put(Contract.Statistic.COLUMN_NAME_PROTEIN, statistic.getProtein());
-        return helper.getWritableDatabase().insert(Contract.Statistic.TABLE_NAME, null, values);
-    }
-
-    public int update(int id, Statistic statistic) {
-        ContentValues values = new ContentValues();
-        values.put(Contract.Statistic.COLUMN_NAME_CALORIE, statistic.getCalorie());
-        values.put(Contract.Statistic.COLUMN_NAME_GLUCIDE, statistic.getGlucide());
-        values.put(Contract.Statistic.COLUMN_NAME_LIPIDE, statistic.getLipid());
-        values.put(Contract.Statistic.COLUMN_NAME_PROTEIN, statistic.getProtein());
-        return helper.getWritableDatabase().update(Contract.Statistic.TABLE_NAME, values, Contract.Statistic._ID + " = " + id, null);
-    }
-
-    public long delete(long id) {
-        return helper.getWritableDatabase().delete(Contract.Statistic.TABLE_NAME, Contract.Statistic._ID + " = " + id, null);
-    }
-
-    public long delete(Statistic statistic) {
-        return delete(statistic.getId());
-    }
-
-    public Cursor read(String[] projection, String selection, String[] selectionArgs) {
-        return helper.getReadableDatabase().query(
-                Contract.Statistic.TABLE_NAME,
-                projection,
-                selection,
-                selectionArgs,
-                null,
-                null,
-                null);
-    }
-
-    public Statistic get(long id) {
-        Cursor cursor = read(
-                ALL_COLUMNS,
-                Contract.Statistic._ID + " = ?",
-                new String[]{String.valueOf(id)});
-        cursor.moveToFirst();
-        Statistic statistic = convert(cursor);
-        cursor.close();
-        return statistic;
-    }
-
-    public List<Statistic> get(String selection, String[] selectionArgs) {
-        Cursor cursor = read(
-                ALL_COLUMNS,
-                selection,
-                selectionArgs);
-        cursor.moveToFirst();
-
-        List<Statistic> statistics = new ArrayList<>();
-        while (cursor.moveToNext())
-            statistics.add(convert(cursor));
-        cursor.close();
-        return statistics;
-    }
-
-    private Statistic convert(Cursor cursor) {
-        Statistic statistic = new Statistic();
-        statistic.setId(cursor.getLong(cursor.getColumnIndexOrThrow(Contract.Statistic._ID)));
-        statistic.setCalorie(cursor.getInt(cursor.getColumnIndexOrThrow(Contract.Statistic.COLUMN_NAME_CALORIE)));
-        statistic.setGlucide(cursor.getInt(cursor.getColumnIndexOrThrow(Contract.Statistic.COLUMN_NAME_GLUCIDE)));
-        statistic.setLipid(cursor.getInt(cursor.getColumnIndexOrThrow(Contract.Statistic.COLUMN_NAME_LIPIDE)));
-        statistic.setProtein(cursor.getInt(cursor.getColumnIndexOrThrow(Contract.Statistic.COLUMN_NAME_PROTEIN)));
-        return statistic;
-    }
-    */
 }

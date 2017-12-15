@@ -1,4 +1,4 @@
-package hl.univ_paris_diderot.coachnutrition;
+package fr.univ_paris_diderot.coachnutrition;
 
 import org.junit.Test;
 

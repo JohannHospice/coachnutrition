@@ -1,22 +1,22 @@
-package hl.univ_paris_diderot.coachnutrition.app.database;
+package fr.univ_paris_diderot.coachnutrition.app.database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-public class DataBaseHelper extends SQLiteOpenHelper {
+public class DatabaseHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "CoachNutrition.db";
 
-    private static DataBaseHelper ourInstance;
+    private static DatabaseHelper ourInstance;
 
-    public static DataBaseHelper getInstance(Context context) {
+    public static DatabaseHelper getInstance(Context context) {
         if (ourInstance == null)
-            ourInstance = new DataBaseHelper(context);
+            ourInstance = new DatabaseHelper(context);
         return ourInstance;
     }
 
-    private DataBaseHelper(Context context) {
+    private DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
