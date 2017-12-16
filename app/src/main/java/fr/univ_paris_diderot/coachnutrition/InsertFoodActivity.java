@@ -1,17 +1,14 @@
 package fr.univ_paris_diderot.coachnutrition;
 
-import android.content.ContentValues;
-import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import fr.univ_paris_diderot.coachnutrition.app.database.Contract;
 import fr.univ_paris_diderot.coachnutrition.app.database.NutritionResolverHandler;
 
-public class AddFoodActivity extends AppCompatActivity {
+public class InsertFoodActivity extends AppCompatActivity {
 
     //Food attribute
     private EditText name;
@@ -28,7 +25,7 @@ public class AddFoodActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_food);
+        setContentView(R.layout.activity_insert_food);
         resolverHandler = new NutritionResolverHandler(getApplicationContext());
 
         name = findViewById(R.id.name);
@@ -45,9 +42,8 @@ public class AddFoodActivity extends AppCompatActivity {
                 Integer.parseInt(glucide.getText().toString()),
                 Integer.parseInt(lipide.getText().toString()),
                 Integer.parseInt(protein.getText().toString()));
-        long idFood = resolverHandler.insertFood(
+        resolverHandler.insertFood(
                 name.getText().toString(),
-                Integer.parseInt(gramme.getText().toString()),
                 idStatistic);
     }
 }

@@ -23,10 +23,13 @@ public class NutritionProvider extends ContentProvider {
 
     private static final UriMatcher uriMatcher;
 
+    private static final int CODE_STATISTIC_ID = 7;
+
     static {
         uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
         uriMatcher.addURI(AUTHORITY, "objective", CODE_OBJECTIVE);
         uriMatcher.addURI(AUTHORITY, "statistic", CODE_STATISTIC);
+        uriMatcher.addURI(AUTHORITY, "statistic/#", CODE_STATISTIC_ID);
         uriMatcher.addURI(AUTHORITY, "food", CODE_FOOD);
         uriMatcher.addURI(AUTHORITY, "meal", CODE_MEAL);
         uriMatcher.addURI(AUTHORITY, "day", CODE_DAY);

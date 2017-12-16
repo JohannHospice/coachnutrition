@@ -28,16 +28,31 @@ public final class Contract {
     public static class Food implements BaseColumns {
         public static final String TABLE_NAME = "food";
         public static final String COLUMN_NAME_STATISTIC_ID = "_statistic_id";
-        public static final String COLUMN_NAME_MEAL_ID = "_meal_id";
         public static final String COLUMN_NAME_NAME = "name";
-        public static final String COLUMN_NAME_GRAMME = "gramme";
 
         public static final String SQL_CREATE_ENTRIES =
                 "create table " + TABLE_NAME + "( " +
                         _ID + " integer primary key autoincrement," +
                         COLUMN_NAME_STATISTIC_ID + " int not null, " +
-                        COLUMN_NAME_MEAL_ID + " int, " +
-                        COLUMN_NAME_NAME + " varchar(255) not null, " +
+                        COLUMN_NAME_NAME + " varchar(255) not null);";
+
+        public static final String SQL_DELETE_ENTRIES =
+                "drop table if exists " + TABLE_NAME;
+    }
+
+    public static class FoodMeal implements BaseColumns {
+        public static final String TABLE_NAME = "food_meal";
+        public static final String COLUMN_NAME_FOOD_ID = "_food_id";
+        public static final String COLUMN_NAME_MEAL_ID = "_meal_id";
+        public static final String COLUMN_NAME_STATISTIC_ID = "_meal_id";
+        public static final String COLUMN_NAME_GRAMME = "gramme";
+
+        public static final String SQL_CREATE_ENTRIES =
+                "create table " + TABLE_NAME + "( " +
+                        _ID + " integer primary key autoincrement," +
+                        COLUMN_NAME_MEAL_ID + " int not null, " +
+                        COLUMN_NAME_FOOD_ID + " int not null, " +
+                        COLUMN_NAME_STATISTIC_ID + " int not null, " +
                         COLUMN_NAME_GRAMME + " int not null);";
 
         public static final String SQL_DELETE_ENTRIES =
