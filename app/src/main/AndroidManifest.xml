@@ -26,6 +26,8 @@
             android:name=".app.database.NutritionProvider"
             android:authorities="fr.univ-paris-diderot.coachnutrition" />
 
+        <activity android:name=".UpdateObjectiveActivity" />
+        <activity android:name=".SearchFoodActivity"></activity>
     </application>
 
 </manifest>

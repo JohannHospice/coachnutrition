@@ -6,7 +6,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import android.provider.BaseColumns;
 
 import java.util.Date;
 
@@ -17,7 +16,13 @@ public class NutritionResolverHandler {
         resolver = context.getContentResolver();
     }
 
-    public Cursor getById(String table, long id, String[] projection) {
+    private static Uri buildUri(String table) {
+        Uri.Builder builder = new Uri.Builder();
+        builder.scheme("content").authority(NutritionProvider.AUTHORITY).appendPath(table);
+        return builder.build();
+    }
+
+    public Cursor query(String table, long id, String[] projection) {
         Uri.Builder builder = new Uri.Builder();
         builder.scheme("content").authority(NutritionProvider.AUTHORITY).appendPath(table);
         Uri uri = ContentUris.appendId(builder, id).build();
@@ -38,14 +43,12 @@ public class NutritionResolverHandler {
         return resolver.update(buildUri(table), contentValues, where, selectionArgs);
     }
 
-    public int delete(String table, String where, String[] selectionArgs) {
-        return resolver.delete(buildUri(table), where, selectionArgs);
+    public int updateObjective(long id, int minCalorie, int maxCalorie) {
+        return update(Contract.Objective.TABLE_NAME, createObjectiveValues(minCalorie, maxCalorie), Contract.Objective.TABLE_NAME + " = ?", new String[]{String.valueOf(id)});
     }
 
-    private static Uri buildUri(String table) {
-        Uri.Builder builder = new Uri.Builder();
-        builder.scheme("content").authority(NutritionProvider.AUTHORITY).appendPath(table);
-        return builder.build();
+    public int delete(String table, String where, String[] selectionArgs) {
+        return resolver.delete(buildUri(table), where, selectionArgs);
     }
 
     public Cursor getDay(Date today, String[] projection) {
@@ -110,7 +113,7 @@ public class NutritionResolverHandler {
         return Long.parseLong(uri.getPathSegments().get(1));
     }
 
-    private static ContentValues createStatisticValues(int calorie, int protein, int glucide, int lipide) {
+    public static ContentValues createStatisticValues(int calorie, int protein, int glucide, int lipide) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(Contract.Statistic.COLUMN_NAME_CALORIE, calorie);
         contentValues.put(Contract.Statistic.COLUMN_NAME_GLUCIDE, glucide);
@@ -119,14 +122,14 @@ public class NutritionResolverHandler {
         return contentValues;
     }
 
-    private static ContentValues createFoodValues(String name, long idStatistic) {
+    public static ContentValues createFoodValues(String name, long idStatistic) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(Contract.Food.COLUMN_NAME_NAME, name);
         contentValues.put(Contract.Food.COLUMN_NAME_STATISTIC_ID, idStatistic);
         return contentValues;
     }
 
-    private static ContentValues createFoodMealValues(int gramme, long idFood, long idMeal, long idStatistic) {
+    public static ContentValues createFoodMealValues(int gramme, long idFood, long idMeal, long idStatistic) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(Contract.FoodMeal.COLUMN_NAME_GRAMME, gramme);
         contentValues.put(Contract.FoodMeal.COLUMN_NAME_FOOD_ID, idFood);
@@ -135,7 +138,7 @@ public class NutritionResolverHandler {
         return contentValues;
     }
 
-    private static ContentValues createMealValues(String name, long idDay, long idStatistic) {
+    public static ContentValues createMealValues(String name, long idDay, long idStatistic) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(Contract.Meal.COLUMN_NAME_NAME, name);
         contentValues.put(Contract.Meal.COLUMN_NAME_DAY_ID, idDay);
@@ -143,7 +146,7 @@ public class NutritionResolverHandler {
         return contentValues;
     }
 
-    private static ContentValues createDayValues(Date date, long idObjective, long idStatistic) {
+    public static ContentValues createDayValues(Date date, long idObjective, long idStatistic) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(Contract.Day.COLUMN_NAME_DATE, date.getTime());
         contentValues.put(Contract.Day.COLUMN_NAME_OBJECTIVE_ID, idObjective);
@@ -151,7 +154,7 @@ public class NutritionResolverHandler {
         return contentValues;
     }
 
-    private static ContentValues createObjectiveValues(int minCalorie, int maxCalorie) {
+    public static ContentValues createObjectiveValues(int minCalorie, int maxCalorie) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(Contract.Objective.COLUMN_NAME_MAX_CALORIE, maxCalorie);
         contentValues.put(Contract.Objective.COLUMN_NAME_MIN_CALORIE, minCalorie);
