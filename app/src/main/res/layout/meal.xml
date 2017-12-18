@@ -24,7 +24,7 @@
                 android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="5"
+                android:layout_weight="1"
                 android:gravity="start"
                 android:textAlignment="textStart"
                 android:textAppearance="@android:style/TextAppearance.Material.Large"
@@ -39,15 +39,6 @@
                 android:textAlignment="textEnd"
                 android:textAppearance="@android:style/TextAppearance.Material.Small"
                 tools:targetApi="lollipop" />
-
-            <TextView
-                android:id="@+id/textView9"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="end"
-                android:text="@string/cal"
-                android:textAlignment="textEnd" />
 
         </LinearLayout>
 

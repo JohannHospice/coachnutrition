@@ -84,6 +84,8 @@ public class MainActivity extends AppCompatActivity {
 
         LayoutInflater vi = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
+
+        // ajouter les repas et aliment dans repas
         Cursor cursorMeal = resolverHandler.query(
                 Contract.Meal.TABLE_NAME,
                 new String[]{Contract.Meal._ID, Contract.Meal.COLUMN_NAME_NAME, Contract.Meal.COLUMN_NAME_STATISTIC_ID},
@@ -105,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
 
                 View mealView = vi.inflate(R.layout.meal, null);
                 ((TextView) mealView.findViewById(R.id.name)).setText(mealName);
-                ((TextView) mealView.findViewById(R.id.calorie)).setText(String.valueOf(mealCalorie));
+                ((TextView) mealView.findViewById(R.id.calorie)).setText(String.valueOf(mealCalorie) + R.string.cal);
 
                 List<MealFood> mealFoodList = new ArrayList<>();
 
@@ -153,9 +155,9 @@ public class MainActivity extends AppCompatActivity {
                 mealView.findViewById(R.id.add_food).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Toast.makeText(MainActivity.this, "clicked", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(MainActivity.this, SearchActivity.class);
                         intent.putExtra(SearchActivity.EXTRA_MEAL, mealId);
+                        startActivity(intent);
                     }
                 });
                 calorieFoodView.setAdapter(mealFoodAdapter);
