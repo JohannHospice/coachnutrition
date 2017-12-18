@@ -1,8 +1,14 @@
 package fr.univ_paris_diderot.coachnutrition.app.model;
 
-public class CalorieFood {
+public class MealFood {
+    private long id;
     private int calorie;
     private String name;
+
+    public MealFood() {
+        this.calorie = calorie;
+        this.name = name;
+    }
 
     public int getCalorie() {
         return calorie;
@@ -20,9 +26,11 @@ public class CalorieFood {
         this.name = name;
     }
 
-    public CalorieFood(int calorie, String name) {
+    public long getId() {
+        return id;
+    }
 
-        this.calorie = calorie;
-        this.name = name;
+    public void setId(long id) {
+        this.id = id;
     }
 }

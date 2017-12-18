@@ -44,15 +44,15 @@ public class NutritionResolverHandler {
     }
 
     public int updateObjective(long id, int minCalorie, int maxCalorie) {
-        return update(Contract.Objective.TABLE_NAME, createObjectiveValues(minCalorie, maxCalorie), Contract.Objective.TABLE_NAME + " = ?", new String[]{String.valueOf(id)});
+        return update(Contract.Objective.TABLE_NAME, createObjectiveValues(minCalorie, maxCalorie), Contract.Objective._ID + " = ?", new String[]{String.valueOf(id)});
     }
 
     public int delete(String table, String where, String[] selectionArgs) {
         return resolver.delete(buildUri(table), where, selectionArgs);
     }
 
-    public Cursor getDay(Date today, String[] projection) {
-        return query(Contract.Day.TABLE_NAME, projection, Contract.Day.COLUMN_NAME_DATE + " = ?", new String[]{String.valueOf(today.getTime())});
+    public Cursor getDay(String today, String[] projection) {
+        return query(Contract.Day.TABLE_NAME, projection, Contract.Day.COLUMN_NAME_DATE + " = ?", new String[]{today});
     }
 
     public Cursor getDay(int id, String[] projection) {
@@ -98,8 +98,8 @@ public class NutritionResolverHandler {
         return Long.parseLong(uri.getPathSegments().get(1));
     }
 
-    public long insertFoodMeal(int gramme, long idFood, long idMeal, long idStatistic) {
-        Uri uri = insert(Contract.FoodMeal.TABLE_NAME, createFoodMealValues(gramme, idFood, idMeal, idStatistic));
+    public long insertFoodMeal(int gramme, long idFood, long idMeal) {
+        Uri uri = insert(Contract.FoodMeal.TABLE_NAME, createFoodMealValues(gramme, idFood, idMeal));
         return Long.parseLong(uri.getPathSegments().get(1));
     }
 
@@ -108,7 +108,7 @@ public class NutritionResolverHandler {
         return Long.parseLong(uri.getPathSegments().get(1));
     }
 
-    public long insertDay(Date date, long idObjective, long idStatistic) {
+    public long insertDay(String date, long idObjective, long idStatistic) {
         Uri uri = insert(Contract.Day.TABLE_NAME, createDayValues(date, idObjective, idStatistic));
         return Long.parseLong(uri.getPathSegments().get(1));
     }
@@ -129,11 +129,10 @@ public class NutritionResolverHandler {
         return contentValues;
     }
 
-    public static ContentValues createFoodMealValues(int gramme, long idFood, long idMeal, long idStatistic) {
+    public static ContentValues createFoodMealValues(int gramme, long idFood, long idMeal) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(Contract.FoodMeal.COLUMN_NAME_GRAMME, gramme);
         contentValues.put(Contract.FoodMeal.COLUMN_NAME_FOOD_ID, idFood);
-        contentValues.put(Contract.FoodMeal.COLUMN_NAME_STATISTIC_ID, idStatistic);
         contentValues.put(Contract.FoodMeal.COLUMN_NAME_MEAL_ID, idMeal);
         return contentValues;
     }
@@ -146,9 +145,9 @@ public class NutritionResolverHandler {
         return contentValues;
     }
 
-    public static ContentValues createDayValues(Date date, long idObjective, long idStatistic) {
+    public static ContentValues createDayValues(String date, long idObjective, long idStatistic) {
         ContentValues contentValues = new ContentValues();
-        contentValues.put(Contract.Day.COLUMN_NAME_DATE, date.getTime());
+        contentValues.put(Contract.Day.COLUMN_NAME_DATE, date);
         contentValues.put(Contract.Day.COLUMN_NAME_OBJECTIVE_ID, idObjective);
         contentValues.put(Contract.Day.COLUMN_NAME_STATISTIC_ID, idStatistic);
         return contentValues;

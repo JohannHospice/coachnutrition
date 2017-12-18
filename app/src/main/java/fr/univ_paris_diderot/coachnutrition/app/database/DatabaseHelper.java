@@ -25,19 +25,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(Contract.Objective.SQL_CREATE_ENTRIES);
         db.execSQL(Contract.Statistic.SQL_CREATE_ENTRIES);
         db.execSQL(Contract.Food.SQL_CREATE_ENTRIES);
+        db.execSQL(Contract.FoodMeal.SQL_CREATE_ENTRIES);
         db.execSQL(Contract.Meal.SQL_CREATE_ENTRIES);
         db.execSQL(Contract.Day.SQL_CREATE_ENTRIES);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        if (newVersion > oldVersion) {
-            db.execSQL(Contract.Objective.SQL_DELETE_ENTRIES);
-            db.execSQL(Contract.Statistic.SQL_DELETE_ENTRIES);
-            db.execSQL(Contract.Food.SQL_DELETE_ENTRIES);
-            db.execSQL(Contract.Meal.SQL_DELETE_ENTRIES);
-            db.execSQL(Contract.Day.SQL_DELETE_ENTRIES);
-            onCreate(db);
-        }
+        //if (newVersion > oldVersion) {
+        db.execSQL(Contract.Objective.SQL_DELETE_ENTRIES);
+        db.execSQL(Contract.Statistic.SQL_DELETE_ENTRIES);
+        db.execSQL(Contract.Food.SQL_DELETE_ENTRIES);
+        db.execSQL(Contract.FoodMeal.SQL_DELETE_ENTRIES);
+        db.execSQL(Contract.Meal.SQL_DELETE_ENTRIES);
+        db.execSQL(Contract.Day.SQL_DELETE_ENTRIES);
+        onCreate(db);
+        //}
     }
 }

@@ -12,27 +12,27 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 public class NutritionProvider extends ContentProvider {
-    private DatabaseHelper helper;
-
     public static final String AUTHORITY = "fr.univ-paris-diderot.coachnutrition";
+    private static final UriMatcher uriMatcher;
     private static final int CODE_OBJECTIVE = 1;
     private static final int CODE_STATISTIC = 2;
     private static final int CODE_FOOD = 3;
     private static final int CODE_MEAL = 4;
     private static final int CODE_DAY = 5;
-
-    private static final UriMatcher uriMatcher;
-
+    private static final int CODE_FOOD_MEAL = 6;
     private static final int CODE_STATISTIC_ID = 7;
+
+    private DatabaseHelper helper;
 
     static {
         uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-        uriMatcher.addURI(AUTHORITY, "objective", CODE_OBJECTIVE);
-        uriMatcher.addURI(AUTHORITY, "statistic", CODE_STATISTIC);
-        uriMatcher.addURI(AUTHORITY, "statistic/#", CODE_STATISTIC_ID);
-        uriMatcher.addURI(AUTHORITY, "food", CODE_FOOD);
-        uriMatcher.addURI(AUTHORITY, "meal", CODE_MEAL);
-        uriMatcher.addURI(AUTHORITY, "day", CODE_DAY);
+        uriMatcher.addURI(AUTHORITY, Contract.Objective.TABLE_NAME, CODE_OBJECTIVE);
+        uriMatcher.addURI(AUTHORITY, Contract.Statistic.TABLE_NAME, CODE_STATISTIC);
+        uriMatcher.addURI(AUTHORITY, Contract.Statistic.TABLE_NAME + "/#", CODE_STATISTIC_ID);
+        uriMatcher.addURI(AUTHORITY, Contract.FoodMeal.TABLE_NAME, CODE_FOOD_MEAL);
+        uriMatcher.addURI(AUTHORITY, Contract.Food.TABLE_NAME, CODE_FOOD);
+        uriMatcher.addURI(AUTHORITY, Contract.Meal.TABLE_NAME, CODE_MEAL);
+        uriMatcher.addURI(AUTHORITY, Contract.Day.TABLE_NAME, CODE_DAY);
     }
 
     @Override
@@ -53,29 +53,17 @@ public class NutritionProvider extends ContentProvider {
         String table = switchCode(uriMatcher.match(uri));
         if (table == null)
             return null;
-        return helper.getReadableDatabase().query(
-                table,
-                projection,
-                selection,
-                selectionArgs,
-                null,
-                null,
-                sortOrdered);
+        return helper.getReadableDatabase().query(table, projection, selection, selectionArgs, null, null, sortOrdered);
     }
 
     @Nullable
     @Override
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues contentValues) {
         String table = switchCode(uriMatcher.match(uri));
-        Log.d("insert", "try");
-
         if (table == null)
             return null;
-        Log.d("insert", "found table");
-
         SQLiteDatabase db = helper.getWritableDatabase();
         long id = db.insertOrThrow(table, null, contentValues);
-        Log.d("insert", "success");
         Uri.Builder builder = (new Uri.Builder())
                 .authority(AUTHORITY)
                 .appendPath(table);
@@ -108,6 +96,8 @@ public class NutritionProvider extends ContentProvider {
                 return Contract.Food.TABLE_NAME;
             case CODE_MEAL:
                 return Contract.Meal.TABLE_NAME;
+            case CODE_FOOD_MEAL:
+                return Contract.FoodMeal.TABLE_NAME;
             case CODE_DAY:
                 return Contract.Day.TABLE_NAME;
             default:

@@ -44,7 +44,6 @@ public final class Contract {
         public static final String TABLE_NAME = "food_meal";
         public static final String COLUMN_NAME_FOOD_ID = "_food_id";
         public static final String COLUMN_NAME_MEAL_ID = "_meal_id";
-        public static final String COLUMN_NAME_STATISTIC_ID = "_meal_id";
         public static final String COLUMN_NAME_GRAMME = "gramme";
 
         public static final String SQL_CREATE_ENTRIES =
@@ -52,7 +51,6 @@ public final class Contract {
                         _ID + " integer primary key autoincrement," +
                         COLUMN_NAME_MEAL_ID + " int not null, " +
                         COLUMN_NAME_FOOD_ID + " int not null, " +
-                        COLUMN_NAME_STATISTIC_ID + " int not null, " +
                         COLUMN_NAME_GRAMME + " int not null);";
 
         public static final String SQL_DELETE_ENTRIES =
@@ -87,7 +85,7 @@ public final class Contract {
                         _ID + " integer primary key autoincrement," +
                         COLUMN_NAME_STATISTIC_ID + " int not null, " +
                         COLUMN_NAME_OBJECTIVE_ID + " int not null, " +
-                        COLUMN_NAME_DATE + " date not null);";
+                        COLUMN_NAME_DATE + " varchar(8) not null);";
 
         public static final String SQL_DELETE_ENTRIES =
                 "drop table if exists " + TABLE_NAME;

@@ -32,8 +32,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:inputType="textPersonName"
-                    android:text="1000" />
+                    android:inputType="number"
+                    android:selectAllOnFocus="false"
+                    android:singleLine="false" />
 
             </TableRow>
 
@@ -52,15 +53,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:inputType="textPersonName"
-                    android:text="1500" />
+                    android:inputType="number" />
 
             </TableRow>
 
         </TableLayout>
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/update"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="onClickUpdate"
