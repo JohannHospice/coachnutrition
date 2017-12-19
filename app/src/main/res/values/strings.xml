@@ -1,15 +1,13 @@
 <resources>
-    <string name="app_name">CoachNutrition</string>
+    <string name="app_name">Coach Nutrition</string>
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="nutritional_informations">Informations nutritionnelles</string>
     <string name="protein">Proteine</string>
     <string name="glucide">Glucide</string>
-    <string name="Lipide">lipide</string>
-    <string name="gramme">g</string>
+    <string name="Lipide">Lipide</string>
+    <string name="gramme"> g</string>
     <string name="title_activity_food">FoodActivity</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="_1">1</string>
@@ -17,8 +15,8 @@
     <string name="create">Créer</string>
     <string name="update">Modifier</string>
     <string name="validate">Valider</string>
-    <string name="kcal">KCal</string>
-    <string name="cal">Cal</string>
+    <string name="kcal"> KCal</string>
+    <string name="cal"> Cal</string>
     <string name="calorie">Calorie</string>
     <string name="min_calorie">Cal. minimum</string>
     <string name="current_calorie">Cal. courrant</string>
@@ -34,4 +32,8 @@
     <string name="update_objective">Modifier objectifs</string>
     <string name="insert_meal">Créer un repas</string>
     <string name="meal_name">Nom du repas</string>
+    <string name="amount"> Quantité</string>
+    <string name="name">Nom aliment</string>
+    <string name="chevron_left"><![CDATA[<]]></string>
+    <string name="chevron_right"><![CDATA[>]]></string>
 </resources>

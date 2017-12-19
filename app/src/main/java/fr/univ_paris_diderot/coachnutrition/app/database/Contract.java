@@ -44,10 +44,10 @@ public final class Contract {
         public static final String SQL_CREATE_ENTRIES =
                 "create table " + TABLE_NAME + "( " +
                         _ID + " integer primary key autoincrement," +
-                        COLUMN_NAME_CALORIE + " int not null, " +
-                        COLUMN_NAME_PROTEIN + " int, " +
-                        COLUMN_NAME_GLUCIDE + " int, " +
-                        COLUMN_NAME_LIPIDE + " int);";
+                        COLUMN_NAME_CALORIE + " float not null, " +
+                        COLUMN_NAME_PROTEIN + " float, " +
+                        COLUMN_NAME_GLUCIDE + " float, " +
+                        COLUMN_NAME_LIPIDE + " float);";
 
         public static final String SQL_DELETE_ENTRIES =
                 "drop table if exists " + TABLE_NAME;
@@ -79,7 +79,7 @@ public final class Contract {
                         _ID + " integer primary key autoincrement," +
                         COLUMN_NAME_MEAL_ID + " int not null, " +
                         COLUMN_NAME_FOOD_ID + " int not null, " +
-                        COLUMN_NAME_GRAMME + " int not null);";
+                        COLUMN_NAME_GRAMME + " float not null);";
 
         public static final String SQL_DELETE_ENTRIES =
                 "drop table if exists " + TABLE_NAME;

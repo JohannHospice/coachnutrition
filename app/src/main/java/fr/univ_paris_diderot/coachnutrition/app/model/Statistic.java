@@ -7,11 +7,11 @@ package fr.univ_paris_diderot.coachnutrition.app.model;
 public class Statistic {
     private long id;
 
-    private int calorie;
-    private int glucide;
-    private int protein;
+    private float calorie;
+    private float glucide;
+    private float protein;
 
-    public Statistic(long id, int calorie, int glucide, int protein, int lipide) {
+    public Statistic(long id, float calorie, float glucide, float protein, float lipide) {
         this.id = id;
         this.calorie = calorie;
         this.glucide = glucide;
@@ -31,37 +31,37 @@ public class Statistic {
         this.id = id;
     }
 
-    public int getCalorie() {
+    public float getCalorie() {
         return calorie;
     }
 
-    public void setCalorie(int calorie) {
+    public void setCalorie(float calorie) {
         this.calorie = calorie;
     }
 
-    public int getGlucide() {
+    public float getGlucide() {
         return glucide;
     }
 
-    public void setGlucide(int glucide) {
+    public void setGlucide(float glucide) {
         this.glucide = glucide;
     }
 
-    public int getProtein() {
+    public float getProtein() {
         return protein;
     }
 
-    public void setProtein(int protein) {
+    public void setProtein(float protein) {
         this.protein = protein;
     }
 
-    public int getLipide() {
+    public float getLipide() {
         return lipide;
     }
 
-    public void setLipide(int lipide) {
+    public void setLipide(float lipide) {
         this.lipide = lipide;
     }
 
-    int lipide;
+    float lipide;
 }

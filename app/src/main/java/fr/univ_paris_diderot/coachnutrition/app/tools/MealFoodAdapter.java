@@ -54,12 +54,11 @@ public class MealFoodAdapter extends RecyclerView.Adapter<MealFoodAdapter.MealFo
 
     public void setCursor(Cursor cursor) {
         list.clear();
-
         if (cursor != null && cursor.moveToFirst()) {
             do {
                 long id = cursor.getLong(cursor.getColumnIndex(Contract.Food._ID));
-                int calorie = cursor.getInt(cursor.getColumnIndex(Contract.Statistic.COLUMN_NAME_CALORIE));
                 String name = cursor.getString(cursor.getColumnIndex(Contract.Food.COLUMN_NAME_NAME));
+                float calorie = cursor.getFloat(cursor.getColumnIndex(Contract.Statistic.COLUMN_NAME_CALORIE));
                 list.add(new MealFood(id, calorie, name));
             }
             while (cursor.moveToNext());
@@ -68,7 +67,7 @@ public class MealFoodAdapter extends RecyclerView.Adapter<MealFoodAdapter.MealFo
 
     public void setList(List<MealFood> mealFoods) {
         list.clear();
-        Collections.copy(mealFoods, list);
+        list.addAll(mealFoods);
         notifyDataSetChanged();
     }
 

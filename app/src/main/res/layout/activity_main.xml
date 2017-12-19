@@ -136,6 +136,8 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:onClick="onClickPrev"
+                        android:text="@string/chevron_left"
+                        android:textAppearance="@android:style/TextAppearance.Material.Large"
                         tools:targetApi="lollipop" />
 
                     <TextView
@@ -158,6 +160,8 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:onClick="onClickNext"
+                        android:text="@string/chevron_right"
+                        android:textAppearance="@android:style/TextAppearance.Material.Large"
                         tools:targetApi="lollipop" />
                 </LinearLayout>
 

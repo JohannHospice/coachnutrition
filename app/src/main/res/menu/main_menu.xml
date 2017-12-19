@@ -8,5 +8,6 @@
         android:title="@string/insert_food" />
     <item
         android:id="@+id/insert_meal"
+        android:enabled="false"
         android:title="@string/insert_meal" />
 </menu>

@@ -2,10 +2,10 @@ package fr.univ_paris_diderot.coachnutrition.app.model;
 
 public class MealFood {
     private long id;
-    private int calorie;
+    private float calorie;
     private String name;
 
-    public MealFood(long id, int calorie, String name) {
+    public MealFood(long id, float calorie, String name) {
         this.id =id;
         this.calorie = calorie;
         this.name = name;
@@ -13,11 +13,11 @@ public class MealFood {
     public MealFood() {
     }
 
-    public int getCalorie() {
+    public float getCalorie() {
         return calorie;
     }
 
-    public void setCalorie(int calorie) {
+    public void setCalorie(float calorie) {
         this.calorie = calorie;
     }
 

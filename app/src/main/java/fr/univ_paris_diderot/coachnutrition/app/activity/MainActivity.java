@@ -1,12 +1,15 @@
 package fr.univ_paris_diderot.coachnutrition.app.activity;
 
 import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.gesture.GestureOverlayView;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -17,10 +20,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -28,6 +33,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import fr.univ_paris_diderot.coachnutrition.app.tools.CSVFile;
 import fr.univ_paris_diderot.coachnutrition.app.tools.MealFoodAdapter;
 import fr.univ_paris_diderot.coachnutrition.R;
 import fr.univ_paris_diderot.coachnutrition.app.database.Contract;
@@ -104,7 +110,34 @@ public class MainActivity extends AppCompatActivity {
         mealLayout = findViewById(R.id.list_meal);
 
         resolverHandler = new NutritionResolverHandler(getApplicationContext());
+
         calendar.setTime(new Date());
+        final DatePickerDialog datePickerDialog = new DatePickerDialog(
+                MainActivity.this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+                calendar.set(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth());
+                update();
+            }
+        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+        dateView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                datePickerDialog.show();
+            }
+        });
+
+        Cursor cursor = resolverHandler.getFood(50, null);
+        if (cursor == null || !cursor.moveToFirst()) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    CSVFile csvFile = new CSVFile(getResources().openRawResource(R.raw.foods));
+                    csvFile.insertAllFoods(resolverHandler);
+                }
+            }).start();
+        }
+        if (cursor != null) cursor.close();
     }
 
     @Override
@@ -143,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         try {
-            int currentCalorie = getCalorieOfStatistic(idStatistic);
+            float currentCalorie = getCalorieOfStatistic(idStatistic);
             currentCalorieView.setText(String.valueOf(currentCalorie));
 
             if (currentCalorie < calories[0])
@@ -173,7 +206,9 @@ public class MainActivity extends AppCompatActivity {
                 mealLayout.addView(mealView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
                 RecyclerView mealFoodRecycler = mealView.findViewById(R.id.list_food);
-                mealFoodRecycler.setLayoutManager(new LinearLayoutManager(mealView.getContext()));
+                LinearLayoutManager layoutManager = new LinearLayoutManager(mealView.getContext());
+                mealFoodRecycler.setLayoutManager(layoutManager);
+                mealFoodRecycler.addItemDecoration(new DividerItemDecoration(mealFoodRecycler.getContext(), layoutManager.getOrientation()));
 
                 String mealName = cursorMeal.getString(cursorMeal.getColumnIndex(Contract.Meal.COLUMN_NAME_NAME));
                 final long mealId = cursorMeal.getLong(cursorMeal.getColumnIndex(Contract.Meal._ID));
@@ -205,7 +240,7 @@ public class MainActivity extends AppCompatActivity {
 
                 Cursor cursorStatistic = resolverHandler.getStatistic(mealStatisticId, new String[]{Contract.Statistic.COLUMN_NAME_CALORIE});
                 if (cursorStatistic != null && cursorStatistic.moveToFirst()) {
-                    int mealCalorie = cursorStatistic.getInt(cursorStatistic.getColumnIndex(Contract.Statistic.COLUMN_NAME_CALORIE));
+                    float mealCalorie = cursorStatistic.getFloat(cursorStatistic.getColumnIndex(Contract.Statistic.COLUMN_NAME_CALORIE));
                     ((TextView) mealView.findViewById(R.id.calorie)).setText(String.valueOf(mealCalorie) + " cal");
                     cursorStatistic.close();
                 }
@@ -226,7 +261,7 @@ public class MainActivity extends AppCompatActivity {
             do {
                 long mealFoodId = cursorFoodMeal.getLong(cursorFoodMeal.getColumnIndex(Contract.FoodMeal._ID));
                 long foodId = cursorFoodMeal.getLong(cursorFoodMeal.getColumnIndex(Contract.FoodMeal.COLUMN_NAME_FOOD_ID));
-                int mealFoodGramme = cursorFoodMeal.getInt(cursorFoodMeal.getColumnIndex(Contract.FoodMeal.COLUMN_NAME_GRAMME));
+                float mealFoodGramme = cursorFoodMeal.getFloat(cursorFoodMeal.getColumnIndex(Contract.FoodMeal.COLUMN_NAME_GRAMME));
 
                 Cursor cursorFood = resolverHandler.query(
                         Contract.Food.TABLE_NAME,
@@ -243,9 +278,9 @@ public class MainActivity extends AppCompatActivity {
         return mealFoodList;
     }
 
-    private MealFood createMealFood(Cursor cursor, long mealFoodId, int mealFoodGramme) {
+    private MealFood createMealFood(Cursor cursor, long mealFoodId, float mealFoodGramme) {
         String mealFoodName = cursor.getString(cursor.getColumnIndex(Contract.Food.COLUMN_NAME_NAME));
-        long mealFoodStatisticId = cursor.getInt(cursor.getColumnIndex(Contract.Food.COLUMN_NAME_STATISTIC_ID));
+        long mealFoodStatisticId = cursor.getLong(cursor.getColumnIndex(Contract.Food.COLUMN_NAME_STATISTIC_ID));
 
         MealFood mealFood = new MealFood();
         mealFood.setId(mealFoodId);
@@ -257,7 +292,7 @@ public class MainActivity extends AppCompatActivity {
                 Contract.Statistic._ID + " = ?",
                 new String[]{String.valueOf(mealFoodStatisticId)});
         if (cursorFoodStatistic != null && cursorFoodStatistic.moveToFirst()) {
-            int mealFoodStatisticCalorie = cursorFoodStatistic.getInt(cursorFoodStatistic.getColumnIndex(Contract.Statistic.COLUMN_NAME_CALORIE));
+            float mealFoodStatisticCalorie = cursorFoodStatistic.getFloat(cursorFoodStatistic.getColumnIndex(Contract.Statistic.COLUMN_NAME_CALORIE));
             cursorFoodStatistic.close();
             mealFood.setCalorie(mealFoodStatisticCalorie * mealFoodGramme);
         }
@@ -275,13 +310,14 @@ public class MainActivity extends AppCompatActivity {
         return new int[]{minCalorie, maxCalorie};
     }
 
-    public int getCalorieOfStatistic(long idStatistic) throws Exception {
+    public float getCalorieOfStatistic(long idStatistic) throws Exception {
         Cursor cursor = resolverHandler.getStatistic(idStatistic, new String[]{Contract.Statistic.COLUMN_NAME_CALORIE});
         if (cursor == null || cursor.getCount() <= 0)
             throw new Exception();
         cursor.moveToFirst();
-        int calorie = cursor.getInt(cursor.getColumnIndex(Contract.Statistic.COLUMN_NAME_CALORIE));
+        float calorie = cursor.getFloat(cursor.getColumnIndex(Contract.Statistic.COLUMN_NAME_CALORIE));
         cursor.close();
         return calorie;
     }
+
 }

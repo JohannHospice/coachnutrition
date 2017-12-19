@@ -9,6 +9,7 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
@@ -41,8 +42,8 @@ public class SearchFoodActivity extends AppCompatActivity {
     private long idMeal;
     private String authority;
     private MealFoodAdapter adapter;
-    SearchView searchView = null;
-    ListView listView;
+    private SearchView searchView = null;
+    private Uri uri;
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -65,16 +66,17 @@ public class SearchFoodActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                search(query);
                 return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                if (newText.length() < 3)
-                    adapter.setList(allMealFood());
+                if (newText.length() > 4)
+                    search(newText);
                 else
-                    search(searchView.getQuery().toString());
-                return false;
+                    search(null);
+                return true;
             }
         });
         return true;
@@ -100,12 +102,11 @@ public class SearchFoodActivity extends AppCompatActivity {
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
         authority = getResources().getString(R.string.authority);
 
         idMeal = getIntent().getLongExtra(SearchFoodActivity.EXTRA_MEAL, -1);
 
-        adapter = new MealFoodAdapter(allMealFood(), new MealFoodAdapter.Callable() {
+        adapter = new MealFoodAdapter(new ArrayList<MealFood>()/*allMealFood()*/, new MealFoodAdapter.Callable() {
             @Override
             public void call(MealFoodAdapter adapter, MealFood item) {
                 Intent iii = new Intent(SearchFoodActivity.this, InsertFoodMealActivity.class);
@@ -116,40 +117,32 @@ public class SearchFoodActivity extends AppCompatActivity {
         });
 
         RecyclerView mealFoodRecycler = findViewById(R.id.list_food);
-        mealFoodRecycler.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mealFoodRecycler.getContext(),
+                layoutManager.getOrientation());
+        mealFoodRecycler.setLayoutManager(layoutManager);
+        mealFoodRecycler.addItemDecoration(dividerItemDecoration);
+        mealFoodRecycler.setLayoutManager(layoutManager);
         mealFoodRecycler.setAdapter(adapter);
-    }
-
-    private List<MealFood> allMealFood() {
-        List<MealFood> mealFoodList = new ArrayList<>();
-        NutritionResolverHandler resolverHandler = new NutritionResolverHandler(this);
-        Cursor cursorFood = resolverHandler.query(Contract.Food.TABLE_NAME, new String[]{Contract.Food._ID, Contract.Food.COLUMN_NAME_NAME, Contract.Food.COLUMN_NAME_STATISTIC_ID}, null, null);
-        if (cursorFood != null && cursorFood.moveToFirst()) {
-            do {
-                long id = cursorFood.getLong(cursorFood.getColumnIndex(Contract.Food._ID));
-                long idStat = cursorFood.getLong(cursorFood.getColumnIndex(Contract.Food.COLUMN_NAME_STATISTIC_ID));
-                String name = cursorFood.getString(cursorFood.getColumnIndex(Contract.Food.COLUMN_NAME_NAME));
-                Cursor cursorStatistic = resolverHandler.query(Contract.Statistic.TABLE_NAME, new String[]{Contract.Statistic.COLUMN_NAME_CALORIE}, Contract.Statistic._ID + "=?", new String[]{String.valueOf(idStat)});
-                if (cursorStatistic != null && cursorStatistic.moveToFirst()) {
-                    int calorie = cursorStatistic.getInt(cursorStatistic.getColumnIndex(Contract.Statistic.COLUMN_NAME_CALORIE));
-                    mealFoodList.add(new MealFood(id, calorie, name));
-                }
-            }
-            while (cursorFood.moveToNext());
-        }
-        return mealFoodList;
-    }
-
-
-    public void search(final String query) {
-        final Uri uri = new Uri.Builder().scheme("content")
+        //search(null);
+        uri = new Uri.Builder().scheme("content")
                 .authority(authority)
                 .appendPath(Contract.Food.TABLE_NAME + Contract.Statistic.TABLE_NAME)
                 .build();
-        getLoaderManager().restartLoader(1, null, new LoaderManager.LoaderCallbacks<Cursor>() {
+        getLoaderManager().initLoader(0, null, generateQueryLoader(uri, null));
+    }
+
+    public void search(final String query) {
+
+        getLoaderManager().restartLoader(1, null, generateQueryLoader(uri, query));
+    }
+
+    private LoaderManager.LoaderCallbacks<Cursor> generateQueryLoader(final Uri uri, final String query) {
+        return (new LoaderManager.LoaderCallbacks<Cursor>() {
             @Override
             public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-                return new CursorLoader(SearchFoodActivity.this, uri, new String[]{Contract.Food._ID, Contract.Food.COLUMN_NAME_NAME, Contract.Statistic.COLUMN_NAME_CALORIE},
+                return new CursorLoader(getApplicationContext(), uri, new String[]{Contract.Food._ID, Contract.Food.COLUMN_NAME_NAME, Contract.Statistic.COLUMN_NAME_CALORIE},
                         null, new String[]{query}, null);
             }
 

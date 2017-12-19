@@ -14,7 +14,7 @@ import fr.univ_paris_diderot.coachnutrition.app.database.NutritionResolverHandle
 public class InsertFoodActivity extends AppCompatActivity {
 
     //Food attribute
-    private EditText name;
+    private EditText nameView;
 
     //Stat attribute
     private TextView gramme;
@@ -24,19 +24,21 @@ public class InsertFoodActivity extends AppCompatActivity {
     private EditText lipide;
 
     private NutritionResolverHandler resolverHandler;
+
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_insert_food);
-        setSupportActionBar((Toolbar)findViewById(R.id.toolbar));
+        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        name = findViewById(R.id.name);
+        nameView = findViewById(R.id.name);
         gramme = findViewById(R.id.gramme);
         calorie = findViewById(R.id.calorie);
         protein = findViewById(R.id.protein);
@@ -47,18 +49,21 @@ public class InsertFoodActivity extends AppCompatActivity {
     }
 
     public void onClickAdd(View view) {
-        try{
+        try {
+            String name = this.nameView.getText().toString().trim();
+            if (name.length() <= 0)
+                throw new Exception();
             long idStatistic = resolverHandler.insertStatistic(
-                    Integer.parseInt(calorie.getText().toString()),
-                    Integer.parseInt(glucide.getText().toString()),
-                    Integer.parseInt(lipide.getText().toString()),
-                    Integer.parseInt(protein.getText().toString()));
+                    Float.parseFloat(calorie.getText().toString()),
+                    Float.parseFloat(glucide.getText().toString()),
+                    Float.parseFloat(lipide.getText().toString()),
+                    Float.parseFloat(protein.getText().toString()));
             resolverHandler.insertFood(
-                    name.getText().toString(),
+                    name,
                     idStatistic);
             Toast.makeText(this, R.string.food_created, Toast.LENGTH_SHORT).show();
             finish();
-        } catch (Exception e){
+        } catch (Exception e) {
             Toast.makeText(this, "Veillez verifier vos champs", Toast.LENGTH_SHORT).show();
         }
     }

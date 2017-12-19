@@ -60,9 +60,18 @@ public class NutritionProvider extends ContentProvider {
 
         } catch (Exception e) {
             if (code == CODE_FOOD_STATISTIC) {
-                String sql = "select * from " + Contract.Food.TABLE_NAME + ", " + Contract.Statistic.TABLE_NAME;
+
+                String sql = "select " +
+                        "f." + Contract.Food._ID + ", " +
+                        "f." + Contract.Food.COLUMN_NAME_STATISTIC_ID + ", " +
+                        "f." + Contract.Food.COLUMN_NAME_NAME + ", " +
+                        "s." + Contract.Statistic.COLUMN_NAME_CALORIE + ", " +
+                        "s." + Contract.Statistic.COLUMN_NAME_GLUCIDE + ", " +
+                        "s." + Contract.Statistic.COLUMN_NAME_LIPIDE + ", " +
+                        "s." + Contract.Statistic.COLUMN_NAME_PROTEIN +
+                        " from " + Contract.Food.TABLE_NAME + " f, " + Contract.Statistic.TABLE_NAME + " s where s." + Contract.Statistic._ID + " = f." + Contract.Food.COLUMN_NAME_STATISTIC_ID;
                 if (selectionArgs != null && selectionArgs[0] != null) {
-                    sql += " where " + Contract.Food.COLUMN_NAME_NAME + " like ?";
+                    sql += " and " + Contract.Food.COLUMN_NAME_NAME + " like ?";
                     return helper.getReadableDatabase().rawQuery(sql, selectionArgs);
                 }
                 return helper.getReadableDatabase().rawQuery(sql, null);
