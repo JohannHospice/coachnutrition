@@ -7,6 +7,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 
+import fr.univ_paris_diderot.coachnutrition.app.model.Meal;
+
 public class NutritionResolverHandler {
     private ContentResolver resolver;
 
@@ -49,11 +51,72 @@ public class NutritionResolverHandler {
         return resolver.delete(buildUri(table), where, selectionArgs);
     }
 
+    public void deleteFoodMeal(long id) {
+        Cursor cursorFoodMeal = getFoodMeal(id, null);
+        if (cursorFoodMeal != null && cursorFoodMeal.moveToFirst()) {
+            long idFood = cursorFoodMeal.getLong(cursorFoodMeal.getColumnIndex(Contract.FoodMeal.COLUMN_NAME_FOOD_ID));
+            long idMeal = cursorFoodMeal.getLong(cursorFoodMeal.getColumnIndex(Contract.FoodMeal.COLUMN_NAME_MEAL_ID));
+            int gramme = cursorFoodMeal.getInt(cursorFoodMeal.getColumnIndex(Contract.FoodMeal.COLUMN_NAME_GRAMME));
+
+            Cursor cursorFood = getFood(idFood, new String[]{Contract.Food.COLUMN_NAME_STATISTIC_ID});
+            if (cursorFood != null && cursorFood.moveToFirst()) {
+                long idFoodStat = cursorFood.getLong(cursorFood.getColumnIndex(Contract.Food.COLUMN_NAME_STATISTIC_ID));
+                Cursor cursorFoodStat = getStatistic(idFoodStat, null);
+                if (cursorFoodStat != null && cursorFoodStat.moveToFirst()) {
+                    int calorie = cursorFoodStat.getInt(cursorFoodStat.getColumnIndex(Contract.Statistic.COLUMN_NAME_CALORIE)) * gramme;
+                    int protein = cursorFoodStat.getInt(cursorFoodStat.getColumnIndex(Contract.Statistic.COLUMN_NAME_PROTEIN)) * gramme;
+                    int glucide = cursorFoodStat.getInt(cursorFoodStat.getColumnIndex(Contract.Statistic.COLUMN_NAME_GLUCIDE)) * gramme;
+                    int lipide = cursorFoodStat.getInt(cursorFoodStat.getColumnIndex(Contract.Statistic.COLUMN_NAME_LIPIDE)) * gramme;
+
+                    //update mealstat
+                    Cursor cursorMeal = getMeal(idMeal, new String[]{Contract.Meal.COLUMN_NAME_DAY_ID, Contract.Meal.COLUMN_NAME_STATISTIC_ID});
+                    if (cursorMeal != null && cursorMeal.moveToFirst()) {
+                        long mealStatId = cursorMeal.getLong(cursorMeal.getColumnIndex(Contract.Meal.COLUMN_NAME_STATISTIC_ID));
+                        long dayId = cursorMeal.getLong(cursorMeal.getColumnIndex(Contract.Meal.COLUMN_NAME_DAY_ID));
+                        Cursor cursorMealStat = getStatistic(mealStatId, null);
+                        if (cursorMealStat != null && cursorMealStat.moveToFirst()) {
+                            ContentValues values = new ContentValues();
+                            values.put(Contract.Statistic.COLUMN_NAME_CALORIE, cursorMealStat.getInt(cursorMealStat.getColumnIndex(Contract.Statistic.COLUMN_NAME_CALORIE)) - calorie);
+                            values.put(Contract.Statistic.COLUMN_NAME_PROTEIN, cursorMealStat.getInt(cursorMealStat.getColumnIndex(Contract.Statistic.COLUMN_NAME_PROTEIN)) - protein);
+                            values.put(Contract.Statistic.COLUMN_NAME_GLUCIDE, cursorMealStat.getInt(cursorMealStat.getColumnIndex(Contract.Statistic.COLUMN_NAME_GLUCIDE)) - glucide);
+                            values.put(Contract.Statistic.COLUMN_NAME_LIPIDE, cursorMealStat.getInt(cursorMealStat.getColumnIndex(Contract.Statistic.COLUMN_NAME_LIPIDE)) - lipide);
+                            update(Contract.Statistic.TABLE_NAME, values, Contract.Statistic._ID + " = ?",
+                                    new String[]{String.valueOf(mealStatId)});
+                            cursorMealStat.close();
+                        }
+                        cursorMeal.close();
+
+                        Cursor cursorDay = getDay(dayId, new String[]{Contract.Day.COLUMN_NAME_STATISTIC_ID});
+                        if (cursorDay != null && cursorDay.moveToFirst()) {
+                            long dayStatId = cursorDay.getLong(cursorDay.getColumnIndex(Contract.Day.COLUMN_NAME_STATISTIC_ID));
+                            Cursor cursorDayStat = getStatistic(dayStatId, null);
+                            if (cursorDayStat != null && cursorDayStat.moveToFirst()) {
+                                ContentValues values = new ContentValues();
+                                values.put(Contract.Statistic.COLUMN_NAME_CALORIE, cursorDayStat.getInt(cursorDayStat.getColumnIndex(Contract.Statistic.COLUMN_NAME_CALORIE)) - calorie);
+                                values.put(Contract.Statistic.COLUMN_NAME_PROTEIN, cursorDayStat.getInt(cursorDayStat.getColumnIndex(Contract.Statistic.COLUMN_NAME_PROTEIN)) - protein);
+                                values.put(Contract.Statistic.COLUMN_NAME_GLUCIDE, cursorDayStat.getInt(cursorDayStat.getColumnIndex(Contract.Statistic.COLUMN_NAME_GLUCIDE)) - glucide);
+                                values.put(Contract.Statistic.COLUMN_NAME_LIPIDE, cursorDayStat.getInt(cursorDayStat.getColumnIndex(Contract.Statistic.COLUMN_NAME_LIPIDE)) - lipide);
+                                update(Contract.Statistic.TABLE_NAME, values, Contract.Statistic._ID + " = ?",
+                                        new String[]{String.valueOf(dayStatId)});
+                                cursorDayStat.close();
+                            }
+                            cursorMeal.close();
+                        }
+                    }
+                    cursorFoodStat.close();
+                }
+                cursorFood.close();
+            }
+            cursorFoodMeal.close();
+        }
+        delete(Contract.FoodMeal.TABLE_NAME, Contract.FoodMeal._ID + " = ?", new String[]{String.valueOf(id)});
+    }
+
     public Cursor getDay(String today, String[] projection) {
         return query(Contract.Day.TABLE_NAME, projection, Contract.Day.COLUMN_NAME_DATE + " = ?", new String[]{today});
     }
 
-    public Cursor getDay(int id, String[] projection) {
+    public Cursor getDay(long id, String[] projection) {
         return query(Contract.Day.TABLE_NAME, projection, Contract.Day._ID + " = ?", new String[]{String.valueOf(id)});
     }
 

@@ -16,12 +16,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -33,7 +36,8 @@ import fr.univ_paris_diderot.coachnutrition.app.model.MealFood;
 
 public class MainActivity extends AppCompatActivity {
     @SuppressLint("SimpleDateFormat")
-    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyyMMdd");
+    private static final DateFormat DATE_FORMAT_PRETTY = new SimpleDateFormat("dd/MM/yyyy");
+    private static final DateFormat DATE_FORMAT_DB = new SimpleDateFormat("yyyyMMdd");
     private static final int DEFAULT_MIN_CALORIE = 2000;
     private static final int DEFAULT_MAX_CALORIE = 3000;
     private static final String[] DEFAULT_MEAL_NAMES = {"Petit déjeuner", "Déjeuner", "Diner", "En-cas"};
@@ -46,11 +50,11 @@ public class MainActivity extends AppCompatActivity {
     private TextView dateView;
     private LinearLayout mealLayout;
 
-    private String date;
+    private Calendar calendar = Calendar.getInstance();
+    private int[] calories = new int[2];
     private long idObjective;
     private long idDay;
     private long idStatistic;
-    private int[] calories = new int[2];
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -77,6 +81,17 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void onClickNext(View v) {
+        calendar.add(Calendar.DATE, 1);
+        update();
+    }
+
+
+    public void onClickPrev(View v) {
+        calendar.add(Calendar.DATE, -1);
+        update();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,29 +103,64 @@ public class MainActivity extends AppCompatActivity {
         dateView = findViewById(R.id.date);
         mealLayout = findViewById(R.id.list_meal);
 
-
         resolverHandler = new NutritionResolverHandler(getApplicationContext());
-        date = DATE_FORMAT.format(new Date());
+        calendar.setTime(new Date());
+    }
 
-        Cursor cursor = resolverHandler.getDay(date, null);
-        if (cursor != null && cursor.moveToFirst()) {
-            idDay = cursor.getLong(cursor.getColumnIndex(Contract.Day._ID));
-            idObjective = cursor.getLong(cursor.getColumnIndex(Contract.Day.COLUMN_NAME_OBJECTIVE_ID));
-            idStatistic = cursor.getLong(cursor.getColumnIndex(Contract.Day.COLUMN_NAME_STATISTIC_ID));
-            cursor.close();
+    @Override
+    protected void onResume() {
+        super.onResume();
+        update();
+    }
+
+    private void update() {
+        Date date = calendar.getTime();
+        String dbDate = DATE_FORMAT_DB.format(date);
+        Cursor cursorDay = resolverHandler.getDay(dbDate, null);
+        if (cursorDay != null && cursorDay.moveToFirst()) {
+            idDay = cursorDay.getLong(cursorDay.getColumnIndex(Contract.Day._ID));
+            idObjective = cursorDay.getLong(cursorDay.getColumnIndex(Contract.Day.COLUMN_NAME_OBJECTIVE_ID));
+            idStatistic = cursorDay.getLong(cursorDay.getColumnIndex(Contract.Day.COLUMN_NAME_STATISTIC_ID));
+            cursorDay.close();
         } else {
             idObjective = resolverHandler.insertObjective(DEFAULT_MIN_CALORIE, DEFAULT_MAX_CALORIE);
             idStatistic = resolverHandler.insertStatistic(0, 0, 0, 0);
-            idDay = resolverHandler.insertDay(date, idObjective, idStatistic);
+            idDay = resolverHandler.insertDay(dbDate, idObjective, idStatistic);
             for (String mealName : DEFAULT_MEAL_NAMES) {
                 long idMealStatistic = resolverHandler.insertStatistic(0, 0, 0, 0);
                 resolverHandler.insertMeal(mealName, idDay, idMealStatistic);
             }
         }
 
+        dateView.setText(DATE_FORMAT_PRETTY.format(date));
 
+        try {
+            calories = getObjective(idObjective);
+            minCalorieView.setText(String.valueOf(calories[0]));
+            maxCalorieView.setText(String.valueOf(calories[1]));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            int currentCalorie = getCalorieOfStatistic(idStatistic);
+            currentCalorieView.setText(String.valueOf(currentCalorie));
+
+            if (currentCalorie < calories[0])
+                currentCalorieView.setTextColor(Color.BLUE);
+            else if (currentCalorie > calories[1])
+                currentCalorieView.setTextColor(Color.RED);
+            else
+                currentCalorieView.setTextColor(Color.GREEN);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        fillMeals();
+    }
+
+    private void fillMeals() {
         final LayoutInflater vi = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
+        mealLayout.removeAllViews();
         // ajouter les repas et aliment dans repas
         Cursor cursorMeal = resolverHandler.query(
                 Contract.Meal.TABLE_NAME,
@@ -131,10 +181,16 @@ public class MainActivity extends AppCompatActivity {
 
                 mealFoodRecycler.setAdapter(new MealFoodAdapter(createMealFoodList(mealId), new MealFoodAdapter.Callable() {
                     @Override
-                    public void call(MealFood item) {
+                    public void call(MealFoodAdapter adapter, MealFood item) {
+                        /*
                         Intent iii = new Intent(MainActivity.this, UpdateFoodMealActivity.class);
                         iii.putExtra(InsertFoodMealActivity.EXTRA_ID_FOOD, item.getId());
                         startActivity(iii);
+                        */
+                        resolverHandler.deleteFoodMeal(item.getId());
+                        adapter.remove(item);
+                        onResume();
+                        Toast.makeText(MainActivity.this, "aliment supprimé", Toast.LENGTH_SHORT).show();
                     }
                 }));
                 ((TextView) mealView.findViewById(R.id.name)).setText(mealName);
@@ -169,13 +225,14 @@ public class MainActivity extends AppCompatActivity {
         if (cursorFoodMeal != null && cursorFoodMeal.moveToFirst()) {
             do {
                 long mealFoodId = cursorFoodMeal.getLong(cursorFoodMeal.getColumnIndex(Contract.FoodMeal._ID));
+                long foodId = cursorFoodMeal.getLong(cursorFoodMeal.getColumnIndex(Contract.FoodMeal.COLUMN_NAME_FOOD_ID));
                 int mealFoodGramme = cursorFoodMeal.getInt(cursorFoodMeal.getColumnIndex(Contract.FoodMeal.COLUMN_NAME_GRAMME));
 
                 Cursor cursorFood = resolverHandler.query(
                         Contract.Food.TABLE_NAME,
                         new String[]{Contract.Food.COLUMN_NAME_NAME, Contract.Food.COLUMN_NAME_STATISTIC_ID},
                         Contract.Food._ID + " = ?",
-                        new String[]{String.valueOf(mealFoodId)});
+                        new String[]{String.valueOf(foodId)});
                 if (cursorFood != null && cursorFood.moveToFirst()) {
                     mealFoodList.add(createMealFood(cursorFood, mealFoodId, mealFoodGramme));
                     cursorFood.close();
@@ -207,34 +264,6 @@ public class MainActivity extends AppCompatActivity {
         return mealFood;
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        dateView.setText(date);
-
-        try {
-            calories = getObjective(idObjective);
-            minCalorieView.setText(String.valueOf(calories[0]));
-            maxCalorieView.setText(String.valueOf(calories[1]));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        try {
-            int currentCalorie = getCalorieOfStatistic(idStatistic);
-            currentCalorieView.setText(String.valueOf(currentCalorie));
-
-            if (currentCalorie < calories[0])
-                currentCalorieView.setTextColor(Color.BLUE);
-            else if (currentCalorie > calories[1])
-                currentCalorieView.setTextColor(Color.RED);
-            else
-                currentCalorieView.setTextColor(Color.GREEN);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     public int[] getObjective(long idObjective) throws Exception {
         Cursor cursor = resolverHandler.getObjective(idObjective, null);
         if (cursor == null || cursor.getCount() <= 0)
@@ -254,11 +283,5 @@ public class MainActivity extends AppCompatActivity {
         int calorie = cursor.getInt(cursor.getColumnIndex(Contract.Statistic.COLUMN_NAME_CALORIE));
         cursor.close();
         return calorie;
-    }
-
-    public void onClickUpdateObjective(View v) {
-    }
-
-    public void onClickInsertMeal(View v) {
     }
 }

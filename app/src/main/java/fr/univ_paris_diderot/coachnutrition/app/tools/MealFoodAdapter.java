@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import fr.univ_paris_diderot.coachnutrition.R;
@@ -40,7 +42,7 @@ public class MealFoodAdapter extends RecyclerView.Adapter<MealFoodAdapter.MealFo
         holder.root.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                callable.call(mealFood);
+                callable.call(MealFoodAdapter.this, mealFood);
             }
         });
     }
@@ -64,6 +66,17 @@ public class MealFoodAdapter extends RecyclerView.Adapter<MealFoodAdapter.MealFo
         }
     }
 
+    public void setList(List<MealFood> mealFoods) {
+        list.clear();
+        Collections.copy(mealFoods, list);
+        notifyDataSetChanged();
+    }
+
+    public void remove(MealFood item) {
+        list.remove(item);
+        notifyDataSetChanged();
+    }
+
     public static class MealFoodViewHolder extends RecyclerView.ViewHolder {
         TextView calorieView;
         TextView nameView;
@@ -78,7 +91,7 @@ public class MealFoodAdapter extends RecyclerView.Adapter<MealFoodAdapter.MealFo
     }
 
     public interface Callable {
-        void call(MealFood item);
+        void call(MealFoodAdapter adapter, MealFood item);
     }
 
 }

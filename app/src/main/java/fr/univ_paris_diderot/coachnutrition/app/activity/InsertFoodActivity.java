@@ -47,15 +47,19 @@ public class InsertFoodActivity extends AppCompatActivity {
     }
 
     public void onClickAdd(View view) {
-        long idStatistic = resolverHandler.insertStatistic(
-                Integer.parseInt(calorie.getText().toString()),
-                Integer.parseInt(glucide.getText().toString()),
-                Integer.parseInt(lipide.getText().toString()),
-                Integer.parseInt(protein.getText().toString()));
-        resolverHandler.insertFood(
-                name.getText().toString(),
-                idStatistic);
-        Toast.makeText(this, R.string.food_created, Toast.LENGTH_SHORT).show();
-        finish();
+        try{
+            long idStatistic = resolverHandler.insertStatistic(
+                    Integer.parseInt(calorie.getText().toString()),
+                    Integer.parseInt(glucide.getText().toString()),
+                    Integer.parseInt(lipide.getText().toString()),
+                    Integer.parseInt(protein.getText().toString()));
+            resolverHandler.insertFood(
+                    name.getText().toString(),
+                    idStatistic);
+            Toast.makeText(this, R.string.food_created, Toast.LENGTH_SHORT).show();
+            finish();
+        } catch (Exception e){
+            Toast.makeText(this, "Veillez verifier vos champs", Toast.LENGTH_SHORT).show();
+        }
     }
 }

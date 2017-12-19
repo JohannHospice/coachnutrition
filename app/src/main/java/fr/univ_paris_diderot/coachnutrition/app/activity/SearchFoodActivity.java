@@ -71,7 +71,7 @@ public class SearchFoodActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String newText) {
                 if (newText.length() < 3)
-                    search(null);
+                    adapter.setList(allMealFood());
                 else
                     search(searchView.getQuery().toString());
                 return false;
@@ -107,7 +107,7 @@ public class SearchFoodActivity extends AppCompatActivity {
 
         adapter = new MealFoodAdapter(allMealFood(), new MealFoodAdapter.Callable() {
             @Override
-            public void call(MealFood item) {
+            public void call(MealFoodAdapter adapter, MealFood item) {
                 Intent iii = new Intent(SearchFoodActivity.this, InsertFoodMealActivity.class);
                 iii.putExtra(InsertFoodMealActivity.EXTRA_ID_FOOD, item.getId());
                 iii.putExtra(InsertFoodMealActivity.EXTRA_ID_MEAL, idMeal);
