@@ -7,8 +7,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 
-import java.util.Date;
-
 public class NutritionResolverHandler {
     private ContentResolver resolver;
 
@@ -73,6 +71,10 @@ public class NutritionResolverHandler {
 
     public Cursor getMeal(long id, String[] projection) {
         return query(Contract.Meal.TABLE_NAME, projection, Contract.Meal._ID + " = ?", new String[]{String.valueOf(id)});
+    }
+
+    public Cursor getFoods(String[] projection) {
+        return query(Contract.Food.TABLE_NAME, projection, null, null);
     }
 
     public Cursor getMeals(String[] projection) {

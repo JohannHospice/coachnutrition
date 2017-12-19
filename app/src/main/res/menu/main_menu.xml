@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/update_objective"
+        android:title="@string/update_objective" />
+    <item
+        android:id="@+id/insert_food"
+        android:title="@string/insert_food" />
+    <item
+        android:id="@+id/insert_meal"
+        android:title="@string/insert_meal" />
+</menu>

@@ -9,9 +9,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <provider
+            android:name=".app.database.NutritionProvider"
+            android:authorities="fr.univ-paris-diderot.coachnutrition" />
+
         <activity
-            android:name=".MainActivity"
-            android:label="@string/title_activity_main"
+            android:name=".app.activity.MainActivity"
+            android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,15 +23,30 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".InsertFoodMealActivity" />
-        <activity android:name=".InsertFoodActivity" />
+        <activity
+            android:name=".app.activity.InsertFoodMealActivity"
+            android:label="Ajouter un aliment" />
+        <activity
+            android:name=".app.activity.InsertFoodActivity"
+            android:label="Créer un aliment" />
+        <activity
+            android:name=".app.activity.InsertMealActivity"
+            android:label="Créer un repas" />
+        <activity
+            android:name=".app.activity.UpdateObjectiveActivity"
+            android:label="Modifier objectifs" />
+        <activity android:name=".app.activity.SearchFoodActivity">
 
-        <provider
-            android:name=".app.database.NutritionProvider"
-            android:authorities="fr.univ-paris-diderot.coachnutrition" />
-
-        <activity android:name=".UpdateObjectiveActivity" />
-        <activity android:name=".SearchActivity"></activity>
+            <!--
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@layout/searchable" />
+            -->
+        </activity>
+        <activity android:name=".app.activity.UpdateFoodMealActivity"></activity>
     </application>
 
 </manifest>

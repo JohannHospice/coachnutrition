@@ -30,89 +30,78 @@
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardUseCompatPadding="true">
+                app:cardElevation="2dp"
+                app:cardUseCompatPadding="true"
+                app:contentPadding="4dp">
 
-                <LinearLayout
+                <TableLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content">
 
-                    <TableLayout
+                    <TableRow
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="match_parent">
 
-                        <TableRow
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
+                        <TextView
+                            android:id="@+id/min_calorie"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textAlignment="center"
+                            android:textAppearance="@android:style/TextAppearance.Material.Large"
+                            tools:layout_editor_absoluteX="152dp"
+                            tools:layout_editor_absoluteY="133dp"
+                            tools:targetApi="lollipop" />
 
-                            <TextView
-                                android:id="@+id/min_calorie"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:textAlignment="center"
-                                android:textAppearance="@android:style/TextAppearance.Material.Large"
-                                tools:layout_editor_absoluteX="152dp"
-                                tools:layout_editor_absoluteY="133dp"
-                                tools:targetApi="lollipop" />
+                        <TextView
+                            android:id="@+id/current_calorie"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textAlignment="center"
+                            android:textAppearance="@android:style/TextAppearance.Material.Large"
+                            tools:targetApi="lollipop" />
 
-                            <TextView
-                                android:id="@+id/current_calorie"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:textAlignment="center"
-                                android:textAppearance="@android:style/TextAppearance.Material.Large"
-                                tools:targetApi="lollipop" />
+                        <TextView
+                            android:id="@+id/max_calorie"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textAlignment="center"
+                            android:textAppearance="@android:style/TextAppearance.Material.Large"
+                            tools:targetApi="lollipop" />
+                    </TableRow>
 
-                            <TextView
-                                android:id="@+id/max_calorie"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:textAlignment="center"
-                                android:textAppearance="@android:style/TextAppearance.Material.Large"
-                                tools:targetApi="lollipop" />
-                        </TableRow>
-
-                        <TableRow
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-
-                            <TextView
-                                android:id="@+id/textView13"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="@string/min_calorie"
-                                android:textAlignment="center" />
-
-                            <TextView
-                                android:id="@+id/textView14"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="@string/current_calorie"
-                                android:textAlignment="center" />
-
-                            <TextView
-                                android:id="@+id/textView8"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="@string/max_calorie"
-                                android:textAlignment="center" />
-                        </TableRow>
-
-                    </TableLayout>
-
-                    <Button
-                        android:id="@+id/button"
+                    <TableRow
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:onClick="onClickUpdateObjective"
-                        android:text="@string/update" />
-                </LinearLayout>
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/textView13"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/min_calorie"
+                            android:textAlignment="center" />
+
+                        <TextView
+                            android:id="@+id/textView14"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/current_calorie"
+                            android:textAlignment="center" />
+
+                        <TextView
+                            android:id="@+id/textView8"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/max_calorie"
+                            android:textAlignment="center" />
+                    </TableRow>
+
+                </TableLayout>
 
             </android.support.v7.widget.CardView>
         </android.support.design.widget.CollapsingToolbarLayout>
@@ -128,7 +117,7 @@
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context="fr.univ_paris_diderot.coachnutrition.MainActivity">
+            tools:context="fr.univ_paris_diderot.coachnutrition.app.activity.MainActivity">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -149,24 +138,8 @@
                 <LinearLayout
                     android:id="@+id/list_meal"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"></LinearLayout>
-
-                <!--
-                <ListView
-                    android:id="@+id/list_meal"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:footerDividersEnabled="false"
-                    android:headerDividersEnabled="false"
-                    android:scrollbars="vertical" />
--->
-                <Button
-                    android:id="@+id/add_meal"
-                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/add_meal" />
+                    android:orientation="vertical" />
 
             </LinearLayout>
 

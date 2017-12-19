@@ -5,9 +5,12 @@ public class MealFood {
     private int calorie;
     private String name;
 
-    public MealFood() {
+    public MealFood(long id, int calorie, String name) {
+        this.id =id;
         this.calorie = calorie;
         this.name = name;
+    }
+    public MealFood() {
     }
 
     public int getCalorie() {

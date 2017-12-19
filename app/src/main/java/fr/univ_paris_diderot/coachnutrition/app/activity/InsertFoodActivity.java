@@ -1,11 +1,14 @@
-package fr.univ_paris_diderot.coachnutrition;
+package fr.univ_paris_diderot.coachnutrition.app.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import fr.univ_paris_diderot.coachnutrition.R;
 import fr.univ_paris_diderot.coachnutrition.app.database.NutritionResolverHandler;
 
 public class InsertFoodActivity extends AppCompatActivity {
@@ -21,19 +24,26 @@ public class InsertFoodActivity extends AppCompatActivity {
     private EditText lipide;
 
     private NutritionResolverHandler resolverHandler;
-
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_insert_food);
-        resolverHandler = new NutritionResolverHandler(getApplicationContext());
-
+        setSupportActionBar((Toolbar)findViewById(R.id.toolbar));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
         name = findViewById(R.id.name);
         gramme = findViewById(R.id.gramme);
         calorie = findViewById(R.id.calorie);
         protein = findViewById(R.id.protein);
         glucide = findViewById(R.id.glucide);
         lipide = findViewById(R.id.lipide);
+
+        resolverHandler = new NutritionResolverHandler(getApplicationContext());
     }
 
     public void onClickAdd(View view) {
@@ -45,5 +55,7 @@ public class InsertFoodActivity extends AppCompatActivity {
         resolverHandler.insertFood(
                 name.getText().toString(),
                 idStatistic);
+        Toast.makeText(this, R.string.food_created, Toast.LENGTH_SHORT).show();
+        finish();
     }
 }

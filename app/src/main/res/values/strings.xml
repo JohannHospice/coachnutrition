@@ -25,4 +25,13 @@
     <string name="max_calorie">Cal. maximum</string>
     <string name="add_food">Ajouter aliment</string>
     <string name="add_meal">Ajouter un repas</string>
+    <string name="app_label">rechercher un aliment</string>
+    <string name="search_hint">Aliment recherché</string>
+    <string name="authority">fr.univ-paris-diderot.coachnutrition</string>
+    <string name="search">Rechercher</string>
+    <string name="insert_food">Créer un aliment</string>
+    <string name="food_created">aliment créé</string>
+    <string name="update_objective">Modifier objectifs</string>
+    <string name="insert_meal">Créer un repas</string>
+    <string name="meal_name">Nom du repas</string>
 </resources>

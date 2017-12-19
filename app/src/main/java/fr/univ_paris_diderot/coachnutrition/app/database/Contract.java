@@ -6,6 +6,34 @@ public final class Contract {
     private Contract() {
     }
 
+    public static class Trigger1 {
+        public static final String TRIGGER_NAME = "t1";
+        public static final String SQL_CREATE_ENTRIES =
+                "create trigger " + TRIGGER_NAME + " after insert on " + FoodMeal.TABLE_NAME + " for each row " +
+                        "update " + Statistic.TABLE_NAME + " " +
+                        "set " + Statistic.COLUMN_NAME_CALORIE + " = " + Statistic.COLUMN_NAME_CALORIE + " + NEW." + FoodMeal.COLUMN_NAME_GRAMME + " * " +
+                        "(select sf." + Statistic.COLUMN_NAME_CALORIE + " " +
+                        "from " + Meal.TABLE_NAME + " m, " + Food.TABLE_NAME + " f, (select * from " + Statistic.TABLE_NAME + ") sf " +
+                        "where m." + Meal._ID + " = NEW." + FoodMeal.COLUMN_NAME_MEAL_ID + " and f." + Food._ID + " = NEW." + FoodMeal.COLUMN_NAME_FOOD_ID + " and sf." + Statistic._ID + " = f." + Food.COLUMN_NAME_STATISTIC_ID + " ) " +
+                        "where " + Statistic._ID + " = (select m." + Meal.COLUMN_NAME_STATISTIC_ID + " from " + Meal.TABLE_NAME + " m where m." + Meal._ID + " = NEW." + FoodMeal.COLUMN_NAME_MEAL_ID + ");";
+        public static final String SQL_DELETE_ENTRIES =
+                "drop trigger if exists " + TRIGGER_NAME;
+    }
+
+    public static class Trigger3 {
+        public static final String TRIGGER_NAME = "t3";
+        public static final String SQL_CREATE_ENTRIES =
+                "create trigger " + TRIGGER_NAME + " before delete on " + FoodMeal.TABLE_NAME + " for each row " +
+                        "update " + Statistic.TABLE_NAME + " " +
+                        "set " + Statistic.COLUMN_NAME_CALORIE + " = " + Statistic.COLUMN_NAME_CALORIE + " - OLD." + FoodMeal.COLUMN_NAME_GRAMME + " * " +
+                        "(select sf." + Statistic.COLUMN_NAME_CALORIE + " " +
+                        "from " + Meal.TABLE_NAME + " m, " + Food.TABLE_NAME + " f, (select * from " + Statistic.TABLE_NAME + ") sf " +
+                        "where m." + Meal._ID + " = OLD." + FoodMeal.COLUMN_NAME_MEAL_ID + " and f." + Food._ID + " = OLD." + FoodMeal.COLUMN_NAME_FOOD_ID + " and sf." + Statistic._ID + " = f." + Food.COLUMN_NAME_STATISTIC_ID + ") " +
+                        "where " + Statistic._ID + " = (select m." + Meal.COLUMN_NAME_STATISTIC_ID + " from " + Meal.TABLE_NAME + " m where m." + Meal._ID + " = OLD." + FoodMeal.COLUMN_NAME_MEAL_ID + ");";
+        public static final String SQL_DELETE_ENTRIES =
+                "drop trigger if exists " + TRIGGER_NAME;
+    }
+
     public static class Statistic implements BaseColumns {
         public static final String TABLE_NAME = "statistic";
         public static final String COLUMN_NAME_PROTEIN = "protein";

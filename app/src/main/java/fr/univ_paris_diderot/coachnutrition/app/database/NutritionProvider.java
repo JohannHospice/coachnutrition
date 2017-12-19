@@ -21,6 +21,7 @@ public class NutritionProvider extends ContentProvider {
     private static final int CODE_DAY = 5;
     private static final int CODE_FOOD_MEAL = 6;
     private static final int CODE_STATISTIC_ID = 7;
+    private static final int CODE_FOOD_STATISTIC = 8;
 
     private DatabaseHelper helper;
 
@@ -33,6 +34,7 @@ public class NutritionProvider extends ContentProvider {
         uriMatcher.addURI(AUTHORITY, Contract.Food.TABLE_NAME, CODE_FOOD);
         uriMatcher.addURI(AUTHORITY, Contract.Meal.TABLE_NAME, CODE_MEAL);
         uriMatcher.addURI(AUTHORITY, Contract.Day.TABLE_NAME, CODE_DAY);
+        uriMatcher.addURI(AUTHORITY, Contract.Food.TABLE_NAME + Contract.Statistic.TABLE_NAME, CODE_FOOD_STATISTIC);
     }
 
     @Override
@@ -50,18 +52,30 @@ public class NutritionProvider extends ContentProvider {
     @Nullable
     @Override
     public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection, @Nullable String[] selectionArgs, @Nullable String sortOrdered) {
-        String table = switchCode(uriMatcher.match(uri));
-        if (table == null)
-            return null;
-        return helper.getReadableDatabase().query(table, projection, selection, selectionArgs, null, null, sortOrdered);
+        Log.d("provider query", uri.toString());
+        int code = uriMatcher.match(uri);
+        try {
+            String table = switchCode(code);
+            return helper.getReadableDatabase().query(table, projection, selection, selectionArgs, null, null, sortOrdered);
+
+        } catch (Exception e) {
+            if (code == CODE_FOOD_STATISTIC) {
+                String sql = "select * from " + Contract.Food.TABLE_NAME + ", " + Contract.Statistic.TABLE_NAME;
+                if (selectionArgs != null && selectionArgs[0] != null) {
+                    sql += " where " + Contract.Food.COLUMN_NAME_NAME + " like ?";
+                    return helper.getReadableDatabase().rawQuery(sql, selectionArgs);
+                }
+                return helper.getReadableDatabase().rawQuery(sql, null);
+            }
+        }
+        return null;
     }
 
     @Nullable
     @Override
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues contentValues) {
+        Log.d("provider insert", uri.toString());
         String table = switchCode(uriMatcher.match(uri));
-        if (table == null)
-            return null;
         SQLiteDatabase db = helper.getWritableDatabase();
         long id = db.insertOrThrow(table, null, contentValues);
         Uri.Builder builder = (new Uri.Builder())
@@ -72,14 +86,14 @@ public class NutritionProvider extends ContentProvider {
 
     @Override
     public int update(@NonNull Uri uri, @Nullable ContentValues contentValues, @Nullable String whereClause, @Nullable String[] whereArgs) {
+        Log.d("provider update", uri.toString());
         String table = switchCode(uriMatcher.match(uri));
-        if (table == null)
-            return 0;
         return helper.getWritableDatabase().update(table, contentValues, whereClause, whereArgs);
     }
 
     @Override
     public int delete(@NonNull Uri uri, @Nullable String whereClause, @Nullable String[] whereArgs) {
+        Log.d("provider delete", uri.toString());
         String table = switchCode(uriMatcher.match(uri));
         if (table == null)
             return 0;

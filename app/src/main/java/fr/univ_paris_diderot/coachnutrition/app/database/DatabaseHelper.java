@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     private static final String DATABASE_NAME = "CoachNutrition.db";
 
     private static DatabaseHelper ourInstance;
@@ -28,6 +28,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(Contract.FoodMeal.SQL_CREATE_ENTRIES);
         db.execSQL(Contract.Meal.SQL_CREATE_ENTRIES);
         db.execSQL(Contract.Day.SQL_CREATE_ENTRIES);
+/*
+        db.execSQL(Contract.Trigger1.SQL_CREATE_ENTRIES);
+        db.execSQL(Contract.Trigger3.SQL_CREATE_ENTRIES);
+  */
     }
 
     @Override
@@ -39,6 +43,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(Contract.FoodMeal.SQL_DELETE_ENTRIES);
         db.execSQL(Contract.Meal.SQL_DELETE_ENTRIES);
         db.execSQL(Contract.Day.SQL_DELETE_ENTRIES);
+    /*    db.execSQL(Contract.Trigger1.SQL_DELETE_ENTRIES);
+        db.execSQL(Contract.Trigger3.SQL_DELETE_ENTRIES);
+      */
         onCreate(db);
         //}
     }
