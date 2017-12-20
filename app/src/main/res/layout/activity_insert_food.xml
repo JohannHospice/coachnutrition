@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -22,7 +21,7 @@
 
         <EditText
             android:id="@+id/name"
-            style="@style/Base.V12.Widget.AppCompat.EditText"
+            style="@style/Widget.AppCompat.EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -32,8 +31,7 @@
             android:hint="@string/name"
             android:inputType="textCapWords"
             android:textColor="#FFF"
-            android:textColorHint="#aeaeae"
-            tools:targetApi="lollipop" />
+            android:textColorHint="#aeaeae" />
 
     </android.support.design.widget.AppBarLayout>
 
@@ -81,16 +79,14 @@
                                 android:layout_weight="1"
                                 android:ems="10"
                                 android:text="@string/_1"
-                                android:textAppearance="@android:style/TextAppearance.Material.Medium"
-                                tools:targetApi="lollipop" />
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
                                 android:text="@string/amount"
-                                android:textAppearance="@android:style/TextAppearance.Material.Medium"
-                                tools:targetApi="lollipop" />
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -112,8 +108,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:text="@string/kcal"
-                                android:textAppearance="@android:style/TextAppearance.Material.Medium"
-                                tools:targetApi="lollipop" />
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
                         </LinearLayout>
 
                     </LinearLayout>
@@ -141,8 +136,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/nutritional_informations"
-                            android:textAppearance="@android:style/TextAppearance.Material.Large"
-                            tools:targetApi="lollipop" />
+                            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
                         <TableLayout
                             android:layout_width="match_parent"
@@ -158,8 +152,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:text="@string/protein"
-                                    android:textAppearance="@android:style/TextAppearance.Material.Medium"
-                                    tools:targetApi="lollipop" />
+                                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
                                 <EditText
                                     android:id="@+id/protein"
@@ -175,8 +168,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:text="@string/gramme"
-                                    android:textAppearance="@android:style/TextAppearance.Material.Medium"
-                                    tools:targetApi="lollipop" />
+                                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
                             </TableRow>
 
                             <TableRow
@@ -189,8 +181,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:text="@string/Lipide"
-                                    android:textAppearance="@android:style/TextAppearance.Material.Medium"
-                                    tools:targetApi="lollipop" />
+                                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
                                 <EditText
                                     android:id="@+id/lipide"
@@ -206,8 +197,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:text="@string/gramme"
-                                    android:textAppearance="@android:style/TextAppearance.Material.Medium"
-                                    tools:targetApi="lollipop" />
+                                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
                             </TableRow>
 
@@ -221,8 +211,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:text="@string/glucide"
-                                    android:textAppearance="@android:style/TextAppearance.Material.Medium"
-                                    tools:targetApi="lollipop" />
+                                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
                                 <EditText
                                     android:id="@+id/glucide"
@@ -238,8 +227,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:text="@string/gramme"
-                                    android:textAppearance="@android:style/TextAppearance.Material.Medium"
-                                    tools:targetApi="lollipop" />
+                                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
                             </TableRow>
 
                         </TableLayout>

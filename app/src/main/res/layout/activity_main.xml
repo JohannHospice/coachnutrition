@@ -48,10 +48,10 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:textAlignment="center"
-                            android:textAppearance="@android:style/TextAppearance.Material.Large"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Large"
                             tools:layout_editor_absoluteX="152dp"
                             tools:layout_editor_absoluteY="133dp"
-                            tools:targetApi="lollipop" />
+                             />
 
                         <TextView
                             android:id="@+id/current_calorie"
@@ -59,8 +59,8 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:textAlignment="center"
-                            android:textAppearance="@android:style/TextAppearance.Material.Large"
-                            tools:targetApi="lollipop" />
+                            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                             />
 
                         <TextView
                             android:id="@+id/max_calorie"
@@ -68,8 +68,8 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:textAlignment="center"
-                            android:textAppearance="@android:style/TextAppearance.Material.Large"
-                            tools:targetApi="lollipop" />
+                            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                             />
                     </TableRow>
 
                     <TableRow
@@ -131,14 +131,14 @@
 
                     <Button
                         android:id="@+id/prev"
-                        style="@android:style/Widget.Material.Button.Small"
+                        style="@style/Widget.AppCompat.Button.Small"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:onClick="onClickPrev"
                         android:text="@string/chevron_left"
-                        android:textAppearance="@android:style/TextAppearance.Material.Large"
-                        tools:targetApi="lollipop" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                         />
 
                     <TextView
                         android:id="@+id/date"
@@ -147,22 +147,22 @@
                         android:layout_weight="3"
                         android:textAlignment="center"
                         android:textAllCaps="true"
-                        android:textAppearance="@android:style/TextAppearance.Material.Large"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
                         android:textStyle="bold"
                         tools:layout_editor_absoluteX="3dp"
                         tools:layout_editor_absoluteY="4dp"
-                        tools:targetApi="lollipop" />
+                         />
 
                     <Button
                         android:id="@+id/next"
-                        style="@android:style/Widget.Material.Button.Small"
+                        style="@style/Widget.AppCompat.Button.Small"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:onClick="onClickNext"
                         android:text="@string/chevron_right"
-                        android:textAppearance="@android:style/TextAppearance.Material.Large"
-                        tools:targetApi="lollipop" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                         />
                 </LinearLayout>
 
                 <LinearLayout

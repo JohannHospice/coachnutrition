@@ -35,14 +35,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
-<!--
-                <TextView
-                    android:id="@+id/name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="@android:style/TextAppearance.Material.Large"
-                    tools:targetApi="lollipop" />
--->
+                <!--
+                                <TextView
+                                    android:id="@+id/name"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                                     />
+                -->
                 <android.support.v7.widget.CardView
                     android:id="@+id/card_view"
                     android:layout_width="match_parent"
@@ -81,8 +81,8 @@
                                 android:gravity="center_vertical"
                                 android:text="@string/amount"
                                 android:textAlignment="textStart"
-                                android:textAppearance="@android:style/TextAppearance.Material.Medium"
-                                tools:targetApi="lollipop" />
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                tools:ignore="RtlCompat" />
 
                         </LinearLayout>
 
@@ -95,16 +95,17 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:layout_marginTop="5dp">
+                            android:layout_marginTop="5dp"
+                            android:orientation="horizontal">
 
                             <TextView
                                 android:id="@+id/calorie"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:gravity="end"
                                 android:textAlignment="textEnd"
-                                android:textAppearance="@android:style/TextAppearance.Material.Medium"
-                                tools:targetApi="lollipop" />
+
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
                             <TextView
                                 android:id="@+id/textView2"
@@ -113,8 +114,7 @@
                                 android:layout_marginLeft="5dp"
                                 android:layout_weight="1"
                                 android:text="@string/kcal"
-                                android:textAppearance="@android:style/TextAppearance.Material.Medium"
-                                tools:targetApi="lollipop" />
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
                         </LinearLayout>
 
                     </LinearLayout>
@@ -142,7 +142,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/nutritional_informations"
-                            android:textAppearance="@android:style/TextAppearance.Material.Large" tools:targetApi="lollipop" />
+                            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
                         <TableLayout
                             android:layout_width="match_parent"
@@ -159,15 +159,15 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="6"
                                     android:text="@string/protein"
-                                    android:textAppearance="@android:style/TextAppearance.Material.Medium" tools:targetApi="lollipop" />
+                                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
                                 <TextView
                                     android:id="@+id/protein"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:gravity="end"
                                     android:textAlignment="textEnd"
-                                    android:textAppearance="@android:style/TextAppearance.Material.Medium"
-                                    tools:targetApi="lollipop" />
+                                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
                                 <TextView
                                     android:id="@+id/textView12"
@@ -176,8 +176,7 @@
                                     android:layout_marginLeft="5dp"
                                     android:layout_weight="1"
                                     android:text="@string/gramme"
-                                    android:textAppearance="@android:style/TextAppearance.Material.Medium"
-                                    tools:targetApi="lollipop" />
+                                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
                             </TableRow>
 
                             <TableRow
@@ -191,15 +190,15 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="6"
                                     android:text="@string/Lipide"
-                                    android:textAppearance="@android:style/TextAppearance.Material.Medium" tools:targetApi="lollipop" />
+                                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
                                 <TextView
                                     android:id="@+id/lipide"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:gravity="end"
                                     android:textAlignment="textEnd"
-                                    android:textAppearance="@android:style/TextAppearance.Material.Medium"
-                                    tools:targetApi="lollipop" />
+                                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
                                 <TextView
                                     android:id="@+id/textView11"
@@ -208,8 +207,7 @@
                                     android:layout_marginLeft="5dp"
                                     android:layout_weight="1"
                                     android:text="@string/gramme"
-                                    android:textAppearance="@android:style/TextAppearance.Material.Medium"
-                                    tools:targetApi="lollipop" />
+                                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
                             </TableRow>
 
                             <TableRow
@@ -223,15 +221,15 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="6"
                                     android:text="@string/glucide"
-                                    android:textAppearance="@android:style/TextAppearance.Material.Medium" tools:targetApi="lollipop" />
+                                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
                                 <TextView
                                     android:id="@+id/glucide"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:gravity="end"
                                     android:textAlignment="textEnd"
-                                    android:textAppearance="@android:style/TextAppearance.Material.Medium"
-                                    tools:targetApi="lollipop" />
+                                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
                                 <TextView
                                     android:id="@+id/textView10"
@@ -240,8 +238,7 @@
                                     android:layout_marginLeft="5dp"
                                     android:layout_weight="1"
                                     android:text="@string/gramme"
-                                    android:textAppearance="@android:style/TextAppearance.Material.Medium"
-                                    tools:targetApi="lollipop" />
+                                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
                             </TableRow>
 
                         </TableLayout>
